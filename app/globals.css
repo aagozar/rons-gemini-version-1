@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+/* ============================================================
+   TOKEN DI DESIGN (Tailwind v4, sintassi CSS-first)
+   Se usi Tailwind v3, sposta questi valori dentro
+   tailwind.config.ts → theme.extend.colors / fontFamily.
+   ============================================================ */
+@theme {
+  /* I neri sono presi dalle tue foto: non sono grigio-blu, hanno
+     un fondo verde, perché è così che rende il buio del palco
+     sotto le tue luci. */
+  --color-palco: #050a06; /* fondo base */
+  --color-bruciato: #0c1109; /* superfici e sezioni alternate */
+  --color-fumo: #232b20; /* bordi e filetti */
+  --color-calce: #f2ede4; /* testo principale */
+  --color-cenere: #979e90; /* testo secondario */
+
+  /* I tre accenti vengono dai tuoi scatti, non da un catalogo:
+     il verde è la luce di palco della foto con la Ibanez,
+     l'ambra è il sunburst della cassa armonica,
+     il rosso è il cadmio, il pigmento di chi dipinge. */
+  --color-verde: #2ce86a; /* Musica */
+  --color-ambra: #ff9b21; /* Liuteria */
+  --color-cadmio: #e6453a; /* Pittura */
+
+  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Compensa la navbar fissa quando si salta a un'ancora */
+  scroll-padding-top: 5rem;
+  background-color: var(--color-palco);
+}
+
+body {
+  color: var(--color-calce);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Display largo e serrato: la personalità della pagina */
+.display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.88;
+  text-transform: none;
+}
+
+/* Bagliore neon riutilizzabile: passa --glow sull'elemento */
+.neon {
+  text-shadow:
+    0 0 18px color-mix(in srgb, var(--glow) 55%, transparent),
+    0 0 60px color-mix(in srgb, var(--glow) 25%, transparent);
+}
+
+/* Focus sempre visibile e coerente col resto del sito */
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 2px solid var(--color-calce);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Grana di pellicola: toglie la piattezza del nero pieno */
+.grana::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ACCESSIBILITÀ: chi ha attivato "riduci movimento" nel sistema
+   operativo vede il sito fermo. Framer Motion viene già gestito
+   via useReducedMotion nei componenti, questo copre il resto. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
