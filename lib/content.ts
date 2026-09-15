@@ -5,6 +5,12 @@
    foto, video e date. I componenti leggono da qui.
    I file stanno in /public: il percorso si scrive SENZA "public".
    /public/img/hero-live.jpg  →  "/img/hero-live.jpg"
+
+   NOTA SUL COLORE: la direzione editoriale è solo bianco e nero,
+   come vogue.com — nessun accento colorato da nessuna parte. Le
+   distinzioni (etichetta vs titolo, tappa in corso vs le altre,
+   capolettera) passano da peso, dimensione o opacità, mai dal
+   colore. Se aggiungi un mestiere, non serve inventare una tinta.
    ============================================================ */
 
 export type Anima = {
@@ -12,11 +18,14 @@ export type Anima = {
   titolo: string;
   occhiello: string;
   testo: string;
-  accentoHex: string;
   media: string;
   poster?: string;
   tipo: "video" | "immagine";
   ratio: string;
+  didascalia: string;
+  /* "numeri strumento": una piccola lista di specifiche, numerata.
+     Lascia vuoto [] se il mestiere non ne ha bisogno. */
+  dettagli: string[];
   /* true = il file è ancora un segnaposto, non una foto tua.
      Il pannello mostra un avviso invece di un'immagine rotta. */
   daFare?: boolean;
@@ -24,8 +33,7 @@ export type Anima = {
 };
 
 export const SITE = {
-  nome: "Rons Gemini",
-  tagline: ["Suono.", "Costruisco."],
+  nome: "RONS GEMINI",
   sottotitolo:
     "Le chitarre le suono e le costruisco. Stesso legno, stesse mani, due modi di farlo parlare.",
 
@@ -44,6 +52,10 @@ export const SITE = {
   heroVideoMp4: "/video/hero-loop.mp4",
   heroVideoWebm: "/video/hero-loop.webm",
   heroPoster: "/img/hero-live.jpg",
+
+  /* Riga in alto a destra sulla copertina, stile "proudly
+     presents" da locandina. Cambiala pure se vuoi un'altra frase. */
+  presenta: "Proudly presents",
 
   social: {
     /* SOSTITUISCI CON I TUOI PROFILI VERI */
@@ -66,14 +78,15 @@ export const ANIME: Anima[] = [
     occhiello: "Dal vivo",
     testo:
       "Voce e chitarra davanti a un pubblico. Locali, feste private e serate acustiche, in solo o con la band.",
-    accentoHex: "#2CE86A", // il verde delle tue luci di palco
     tipo: "video",
     /* Il tuo video, già tagliato a 8 secondi, senza audio,
-       scurito e con più contrasto per stare sul fondo nero.
+       scurito e con più contrasto per stare sul fondo chiaro.
        Da 18 MB a 1,2 MB. */
     media: "/video/live-loop.mp4",
     poster: "/img/live-poster.jpg",
-    ratio: "aspect-[16/9]",
+    ratio: "aspect-[4/5]",
+    didascalia: "Live, Milano — voce e chitarra",
+    dettagli: [],
     cta: { label: "Guarda le date", href: "#agenda" },
   },
   {
@@ -82,7 +95,6 @@ export const ANIME: Anima[] = [
     occhiello: "In bottega",
     testo:
       "Chitarre costruite a mano, una alla volta. Legni scelti di persona, manico modellato sulla tua mano, finiture a tampone.",
-    accentoHex: "#FF9B21", // l'ambra del sunburst della tua Ibanez
     tipo: "immagine",
     /* La tua semiacustica in lavorazione. Ho ritagliato stretto sul
        blocco di coda con il tassello di ottone: si legge la
@@ -90,6 +102,10 @@ export const ANIME: Anima[] = [
        resto (balcone, sedia, cielo) è sparito nel ritaglio. */
     media: "/img/liuteria-chitarra.jpg",
     ratio: "aspect-[4/5]",
+    didascalia: "In lavorazione, bottega di Milano",
+    /* PER CAMBIARE LA LISTA: tre voci al massimo, corte, così
+       restano leggibili accanto al numero. */
+    dettagli: ["Legni scelti a mano", "Manico su misura", "Finitura a tampone"],
     cta: { label: "Richiedi una chitarra", href: "#contatti" },
   },
 ];
@@ -108,10 +124,11 @@ export const ANIME: Anima[] = [
     occhiello: "Su tela e su tessuto",
     testo:
       "Immagini dipinte e stampate. Alcune restano su tela, altre finiscono cucite addosso a un oggetto.",
-    accentoHex: "#E6453A",
     tipo: "immagine",
     media: "/img/tessuti-borsa.jpg",
     ratio: "aspect-square",
+    didascalia: "Tela e tessuto, studio",
+    dettagli: [],
     cta: { label: "Vedi le opere", href: "#contatti" },
   },
    -------------------------------------------------------- */
@@ -119,49 +136,64 @@ export const ANIME: Anima[] = [
 /* ---------- ALTRE FOTO LIVE GIÀ PRONTE ----------
    Le uso nella striscia sotto l'agenda. Aggiungine altre qui. */
 export const GALLERIA = [
-  { src: "/img/live-microfono.jpg", alt: "Rons Gemini al microfono" },
-  { src: "/img/live-palco.jpg", alt: "Rons Gemini sul palco" },
+  {
+    src: "/img/live-microfono.jpg",
+    alt: "Rons Gemini al microfono",
+    didascalia: "Al microfono",
+  },
+  {
+    src: "/img/live-palco.jpg",
+    alt: "Rons Gemini sul palco",
+    didascalia: "Sul palco",
+  },
 ];
 
-/* ---------- STATO E AGENDA ---------- */
+/* ---------- STATO E AGENDA ----------
+   Ogni tappa ha una data di inizio e (se dura più di un giorno)
+   una data di fine, in formato "AAAA-MM-GG". NON c'è più un
+   flag "attuale" da spostare a mano: lib/agenda.ts calcola da
+   solo, in base alla data di oggi sul dispositivo di chi guarda
+   il sito, qual è la tappa in corso e qual è la prossima. Anche
+   l'ordine in cui compaiono in agenda si sistema da sé: puoi
+   scrivere le voci qui sotto in qualsiasi ordine. */
 
-export type Stato = "tour" | "bottega" | "studio";
+export type Tipologia = "tour" | "bottega" | "studio";
 
 export type Tappa = {
-  stato: Stato;
+  tipo: Tipologia;
   titolo: string;
   luogo: string;
-  periodo: string;
-  attuale?: boolean;
+  dataInizio: string; // "AAAA-MM-GG"
+  dataFine?: string; // "AAAA-MM-GG" — lasciala vuota per un evento di un solo giorno/mese
 };
 
-export const STATI: Record<Stato, { label: string; hex: string }> = {
-  tour: { label: "In tour", hex: "#2CE86A" },
-  bottega: { label: "Chiuso in bottega", hex: "#FF9B21" },
-  studio: { label: "In studio di registrazione", hex: "#E6453A" }, // il rosso della spia REC
+export const STATI: Record<Tipologia, { label: string }> = {
+  tour: { label: "In tour" },
+  bottega: { label: "Chiuso in bottega" },
+  studio: { label: "In studio di registrazione" },
 };
 
-/* AGGIORNA QUI L'AGENDA. Ordine cronologico dall'alto.
-   Metti attuale: true su una sola voce. */
 export const AGENDA: Tappa[] = [
   {
-    stato: "tour",
-    titolo: "Date in giro per la Lombardia",
-    luogo: "Milano e provincia",
-    periodo: "Settembre 2026",
-    attuale: true,
+    tipo: "tour",
+    titolo: "MFW 2026 — Live Session",
+    luogo: "Spazio Ventura, Milano",
+    dataInizio: "2026-09-01",
+    dataFine: "2026-09-30",
   },
   {
-    stato: "bottega",
-    titolo: "Due commissioni in lavorazione",
-    luogo: "Bottega, Milano",
-    periodo: "Ottobre — Novembre 2026",
+    tipo: "bottega",
+    titolo: "Una jazzbox in acero fiammato per Nicola R.",
+    luogo: "Atelier Corso Garibaldi, Milano",
+    dataInizio: "2026-10-01",
+    dataFine: "2026-11-30",
   },
   {
-    stato: "studio",
-    titolo: "Registrazione dei nuovi pezzi",
-    luogo: "Milano",
-    periodo: "Dicembre 2026",
+    tipo: "studio",
+    titolo: "Registrazione dell'EP «Controluce»",
+    luogo: "Studio Meridiana, Navigli",
+    dataInizio: "2026-12-01",
+    dataFine: "2026-12-31",
   },
 ];
 

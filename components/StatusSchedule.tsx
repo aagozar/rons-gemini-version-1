@@ -1,115 +1,128 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { AGENDA, STATI } from "@/lib/content";
-import { DUR, EASE_OUT, VIEWPORT, riseUp, stagger } from "@/lib/motion";
+import { STATI } from "@/lib/content";
+import { agendaOrdinata, inCorso, periodo, prossimaTappa } from "@/lib/agenda";
+import { VIEWPORT, riseUp, stagger } from "@/lib/motion";
+import Folio from "@/components/Folio";
 
 /* ============================================================
    STATO E AGENDA
    ------------------------------------------------------------
-   La linea verticale con i pallini richiama i segnatasti del
-   manico di una chitarra. Il punto "attuale" pulsa: è l'unica
-   animazione continua della pagina, quindi si nota.
-   Dati e date si aggiornano in lib/content.ts → AGENDA.
+   Una tabella, non più una linea del tempo con segnatasti: tre
+   colonne — evento, luogo, data — come un vero calendario di
+   date. Bianco e nero soltanto: la tappa in corso si distingue
+   per opacità piena (nero) contro il 40-45% delle altre, non per
+   colore. Dati e date si aggiornano in lib/content.ts → AGENDA;
+   qual è la tappa "in corso" lo decide lib/agenda.ts confrontando
+   le date con quella di oggi.
    ============================================================ */
 export default function StatusSchedule() {
-  const attuale = AGENDA.find((t) => t.attuale) ?? AGENDA[0];
-  const colore = STATI[attuale.stato].hex;
+  const attuale = prossimaTappa();
+  const agenda = agendaOrdinata();
 
   return (
     <section
       id="agenda"
-      className="relative border-t border-fumo bg-bruciato px-6 py-28 sm:px-10 lg:px-16 lg:py-36"
+      className="relative border-t px-6 py-24 hairline bg-carta sm:px-10 lg:px-16 lg:py-32"
       aria-label="Stato e agenda"
     >
+      <Folio numero="44" />
+
       <motion.div
         variants={stagger()}
         initial="hidden"
         whileInView="show"
         viewport={VIEWPORT}
-        className="mx-auto max-w-5xl"
+        className="mx-auto max-w-4xl"
       >
         {/* ---------- STATO ATTUALE ---------- */}
-        <motion.p variants={riseUp} className="text-sm text-cenere">
+        <motion.p variants={riseUp} className="kicker text-inchiostro/50">
           In questo momento
         </motion.p>
 
         <motion.h2
           variants={riseUp}
-          className="display mt-3 text-[clamp(2.25rem,6.5vw,5rem)]"
-          style={{ ["--glow" as string]: colore }}
+          className="display-section mt-4 text-[clamp(2rem,5.5vw,4rem)]"
         >
-          <span className="neon" style={{ color: colore }}>
-            {STATI[attuale.stato].label}
-          </span>
+          {STATI[attuale.tipo].label}
         </motion.h2>
 
         <motion.p
           variants={riseUp}
-          className="mt-4 max-w-[50ch] text-base text-cenere"
+          className="mt-4 max-w-[50ch] text-base text-inchiostro/70"
         >
           {attuale.titolo} · {attuale.luogo}
         </motion.p>
 
-        {/* ---------- LINEA DEL TEMPO ---------- */}
-        <ol className="relative mt-20 border-l border-fumo pl-8 sm:pl-12">
-          {AGENDA.map((tappa, i) => {
-            const c = STATI[tappa.stato].hex;
-            return (
-              <motion.li
-                key={`${tappa.titolo}-${i}`}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={VIEWPORT}
-                /* Il ritardo crescente fa "scendere" la sequenza
-                   lungo la linea. 0.12 per voce: alzalo a 0.2 per
-                   un effetto più lento e solenne. */
-                transition={{
-                  duration: DUR.base,
-                  ease: EASE_OUT,
-                  delay: i * 0.12,
-                }}
-                className="relative pb-14 last:pb-0"
-              >
-                {/* Segnatasto */}
-                <span
-                  aria-hidden
-                  className="absolute -left-[2.15rem] top-1.5 h-3 w-3 rounded-full sm:-left-[3.4rem]"
-                  style={{
-                    backgroundColor: tappa.attuale ? c : "#2A231D",
-                    boxShadow: tappa.attuale ? `0 0 18px ${c}` : "none",
-                  }}
-                />
-                {/* Alone pulsante solo sulla tappa in corso */}
-                {tappa.attuale && (
-                  <motion.span
-                    aria-hidden
-                    className="absolute -left-[2.15rem] top-1.5 h-3 w-3 rounded-full sm:-left-[3.4rem]"
-                    style={{ backgroundColor: c }}
-                    animate={{ scale: [1, 2.4], opacity: [0.5, 0] }}
-                    /* 2.2s è un battito lento, da "insegna al neon".
-                       Sotto 1.5s diventa fastidioso. */
-                    transition={{
-                      duration: 2.2,
-                      repeat: Infinity,
-                      ease: "easeOut",
-                    }}
-                  />
-                )}
+        {/* ---------- TABELLA DELLE DATE ----------
+            overflow-x-auto + min-width: su mobile scorre in
+            orizzontale invece di schiacciare le colonne — lo
+            stesso trucco di un vero calendario di sfilate. */}
+        <motion.div variants={riseUp} className="mt-16 overflow-x-auto">
+          <table className="w-full min-w-[600px] border-collapse text-left">
+            <thead>
+              <tr className="border-b hairline">
+                <th className="kicker pb-4 pr-6 font-medium text-inchiostro/45">
+                  Evento
+                </th>
+                <th className="kicker pb-4 pr-6 font-medium text-inchiostro/45">
+                  Luogo
+                </th>
+                <th className="kicker pb-4 font-medium text-inchiostro/45">
+                  Data
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {agenda.map((tappa, i) => {
+                const corrente = inCorso(tappa);
+                return (
+                  <tr
+                    key={`${tappa.titolo}-${i}`}
+                    className="border-b hairline last:border-0"
+                  >
+                    <td className="py-6 pr-6 align-top">
+                      <p
+                        className={`kicker ${
+                          corrente ? "text-inchiostro" : "text-inchiostro/40"
+                        }`}
+                      >
+                        {STATI[tappa.tipo].label}
+                      </p>
+                      <p
+                        className={`display-section mt-2 text-lg sm:text-xl ${
+                          corrente ? "text-inchiostro" : "text-inchiostro/70"
+                        }`}
+                      >
+                        {tappa.titolo}
+                      </p>
+                    </td>
+                    <td className="py-6 pr-6 align-top text-sm text-inchiostro/60">
+                      {tappa.luogo}
+                    </td>
+                    <td className="py-6 align-top text-sm text-inchiostro/60">
+                      {periodo(tappa)}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </motion.div>
 
-                <p className="text-xs font-medium" style={{ color: c }}>
-                  {STATI[tappa.stato].label}
-                </p>
-                <h3 className="mt-2 text-xl font-semibold sm:text-2xl">
-                  {tappa.titolo}
-                </h3>
-                <p className="mt-1 text-sm text-cenere">
-                  {tappa.luogo} — {tappa.periodo}
-                </p>
-              </motion.li>
-            );
-          })}
-        </ol>
+        {/* ---------- CTA: PROPORRE UNA DATA ---------- */}
+        <motion.div variants={riseUp} className="mt-14 border-t hairline pt-10">
+          <p className="pull-quote max-w-[32ch] text-[clamp(1.25rem,2.5vw,1.75rem)] text-inchiostro/80">
+            Una nuova tappa da proporre?
+          </p>
+          <a
+            href="#contatti"
+            className="mt-5 inline-block border-b hairline pb-1 text-xs font-medium uppercase tracking-[0.2em] text-inchiostro transition-colors duration-200 hover:border-inchiostro"
+          >
+            Contattami
+          </a>
+        </motion.div>
       </motion.div>
     </section>
   );

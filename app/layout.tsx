@@ -1,23 +1,27 @@
 import type { Metadata, Viewport } from "next";
-import { Syne, Inter_Tight } from "next/font/google";
+import { Bodoni_Moda, Archivo } from "next/font/google";
 import { SITE } from "@/lib/content";
 import "./globals.css";
 
-/* I due caratteri del sito. Syne 700/800 è il display largo e
-   spigoloso; Inter Tight regge il corpo del testo.
+/* I due caratteri del sito, stile editoriale (Vogue / The
+   Gentlewoman). Bodoni Moda è una didone variabile: teniamo
+   anche l'asse "opsz" (corpo ottico) perché ai pesi grandi da
+   copertina, opsz basso ispessisce le aste sottili — è il fix di
+   leggibilità richiesto dal brief. Archivo è il neogrotesco per
+   corpo testo e micro-tipografia (kicker, didascalie).
    VUOI CAMBIARE FONT? Sostituisci l'import e il nome qui sotto:
    il resto del sito legge le variabili CSS, non il font. */
-const syne = Syne({
+const bodoniModa = Bodoni_Moda({
   subsets: ["latin"],
-  weight: ["700", "800"],
-  variable: "--font-syne",
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+  variable: "--font-bodoni",
   display: "swap",
 });
 
-const interTight = Inter_Tight({
+const archivo = Archivo({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-inter-tight",
+  variable: "--font-archivo",
   display: "swap",
 });
 
@@ -31,7 +35,7 @@ const URL_SITO =
 /* themeColor va nell'export viewport, non in metadata: è il colore
    della barra del browser su Android e su iOS. */
 export const viewport: Viewport = {
-  themeColor: "#050A06",
+  themeColor: "#111111",
 };
 
 export const metadata: Metadata = {
@@ -55,8 +59,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="it" className={`${syne.variable} ${interTight.variable}`}>
-      <body className="grana bg-palco antialiased">{children}</body>
+    <html lang="it" className={`${bodoniModa.variable} ${archivo.variable}`}>
+      <body className="grana bg-carta antialiased">{children}</body>
     </html>
   );
 }

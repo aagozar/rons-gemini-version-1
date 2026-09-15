@@ -38,13 +38,13 @@ export default function Home() {
   return (
     <>
       {/* Barra di avanzamento: unico elemento sempre visibile che
-          racconta quanto manca alla fine. Passa dai tre colori delle
-          tre anime mentre scendi. */}
+          racconta quanto manca alla fine. Un solo filo nero, come
+          tutto il resto del sito. */}
       {!riduciMovimento && (
         <motion.div
           aria-hidden
           style={{ scaleX: avanzamento }}
-          className="fixed inset-x-0 top-0 z-50 h-[3px] origin-left bg-gradient-to-r from-verde via-ambra to-cadmio"
+          className="fixed inset-x-0 top-0 z-50 h-px origin-left bg-inchiostro"
         />
       )}
 
@@ -52,17 +52,17 @@ export default function Home() {
 
       {/* Salto rapido per chi naviga da tastiera o screen reader */}
       <a
-        href="#anime"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-calce focus:px-4 focus:py-2 focus:text-palco"
+        href="#musica"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-inchiostro focus:px-4 focus:py-2 focus:text-carta"
       >
         Vai al contenuto
       </a>
 
-      <main ref={pageRef} className="relative bg-palco">
-        {/* 1 — Apertura a tutto schermo (foto o video) */}
+      <main ref={pageRef} className="relative bg-carta">
+        {/* 1 — Copertina a tutto schermo (foto o video) */}
         <HeroSection />
 
-        {/* 2 — Musica e liuteria */}
+        {/* 2 — Musica e Strumenti (Liuteria) */}
         <TreAnime />
 
         {/* 3 — Dove si trova adesso e cosa sta facendo */}

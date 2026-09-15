@@ -1,78 +1,156 @@
 @import "tailwindcss";
 
 /* ============================================================
-   TOKEN DI DESIGN (Tailwind v4, sintassi CSS-first)
-   Se usi Tailwind v3, sposta questi valori dentro
+   TOKEN DI DESIGN — DIREZIONE EDITORIAL (Tailwind v4, CSS-first)
+   Riferimenti: Brodovitch (asimmetria, spazio bianco), Fabien
+   Baron (serif enormi), Vogue (masthead, gerarchia kicker →
+   headline, e — come il sito vero — palette solo in bianco e
+   nero, nessun accento colorato), The Gentlewoman/Kinfolk
+   (capolettera, didascalie in corsivo minute).
+   Ogni distinzione (etichetta vs titolo, tappa in corso vs le
+   altre, capolettera) passa da peso, dimensione o opacità — mai
+   dal colore. Se usi Tailwind v3, sposta questi valori dentro
    tailwind.config.ts → theme.extend.colors / fontFamily.
    ============================================================ */
 @theme {
-  /* I neri sono presi dalle tue foto: non sono grigio-blu, hanno
-     un fondo verde, perché è così che rende il buio del palco
-     sotto le tue luci. */
-  --color-palco: #050a06; /* fondo base */
-  --color-bruciato: #0c1109; /* superfici e sezioni alternate */
-  --color-fumo: #232b20; /* bordi e filetti */
-  --color-calce: #f2ede4; /* testo principale */
-  --color-cenere: #979e90; /* testo secondario */
+  --color-carta: #ffffff; /* fondo base, bianco */
+  --color-carta-alt: #f0f0ef; /* grigio chiarissimo, sola sezione Strumenti */
+  --color-inchiostro: #111111; /* testo; fondo pieno sezione Booking e copertina */
 
-  /* I tre accenti vengono dai tuoi scatti, non da un catalogo:
-     il verde è la luce di palco della foto con la Ibanez,
-     l'ambra è il sunburst della cassa armonica,
-     il rosso è il cadmio, il pigmento di chi dipinge. */
-  --color-verde: #2ce86a; /* Musica */
-  --color-ambra: #ff9b21; /* Liuteria */
-  --color-cadmio: #e6453a; /* Pittura */
-
-  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bodoni), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
   /* Compensa la navbar fissa quando si salta a un'ancora */
-  scroll-padding-top: 5rem;
-  background-color: var(--color-palco);
+  scroll-padding-top: 5.5rem;
+  background-color: var(--color-carta);
 }
 
 body {
-  color: var(--color-calce);
+  color: var(--color-inchiostro);
   font-family: var(--font-body);
+  font-weight: 300;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-/* Display largo e serrato: la personalità della pagina */
-.display {
+/* ============================================================
+   TIPOGRAFIA EDITORIALE
+   ------------------------------------------------------------
+   font-variation-settings porta insieme peso E corpo ottico
+   (opsz): ai pesi grandi da copertina/titolo, opsz basso
+   ispessisce le aste sottili della Bodoni — è il fix di
+   leggibilità richiesto, non un dettaglio decorativo.
+   ============================================================ */
+
+/* Copertina "RONS GEMINI" */
+.display-cover {
   font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 0.88;
-  text-transform: none;
+  font-variation-settings: "wght" 600, "opsz" 16;
+  text-transform: uppercase;
+  line-height: 0.86;
+  letter-spacing: -0.01em;
 }
 
-/* Bagliore neon riutilizzabile: passa --glow sull'elemento */
-.neon {
-  text-shadow:
-    0 0 18px color-mix(in srgb, var(--glow) 55%, transparent),
-    0 0 60px color-mix(in srgb, var(--glow) 25%, transparent);
+/* Titoli di sezione */
+.display-section {
+  font-family: var(--font-display);
+  font-variation-settings: "wght" 600, "opsz" 14;
+  line-height: 0.92;
 }
 
-/* Focus sempre visibile e coerente col resto del sito */
-:where(a, button, input, textarea, select):focus-visible {
-  outline: 2px solid var(--color-calce);
-  outline-offset: 3px;
-  border-radius: 2px;
+/* Pull quote */
+.pull-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-variation-settings: "wght" 500;
+  line-height: 1.3;
 }
 
-/* Grana di pellicola: toglie la piattezza del nero pieno */
+/* Didascalie minute, in corsivo */
+.caption {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-variation-settings: "wght" 400;
+  font-size: 13px;
+  opacity: 0.62;
+}
+
+/* Kicker / etichette: la spaziatura larga è ciò che dà il tono
+   "rivista". Maiuscolo sempre, Archivo sempre. */
+.kicker {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+}
+@media (min-width: 640px) {
+  .kicker {
+    font-size: 10px;
+    letter-spacing: 0.42em;
+  }
+}
+
+/* Numero di pagina finto, in alto a destra di ogni sezione */
+.folio {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Capolettera: la dimensione fa il lavoro che prima faceva il
+   colore. Eredita il nero del testo, non serve altro. */
+.dropcap::first-letter {
+  font-family: var(--font-display);
+  font-variation-settings: "wght" 600, "opsz" 72;
+  font-size: 4.4em;
+  line-height: 0.78;
+  float: left;
+  padding-right: 0.1em;
+  padding-top: 0.03em;
+}
+
+/* Unico separatore del sito: una linea da 1px */
+.hairline {
+  border-color: rgba(20, 17, 15, 0.22);
+}
+.hairline-inverse {
+  border-color: rgba(246, 243, 237, 0.22);
+}
+
+/* Masthead e nav: restano leggibili sopra qualunque fondo,
+   chiaro o scuro, senza bisogno di un secondo stile. */
+.blend-nav {
+  mix-blend-mode: difference;
+}
+
+/* Grana di carta: un velo di rumore fissato allo schermo, sopra
+   tutto il sito (foto comprese). Rompe la piattezza del bianco e
+   del nero pieni — è quello che fa sembrare "carta" la copertina
+   e "carta stampata" ogni sezione, non solo un fondo colorato. */
 .grana::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 60;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.045;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Focus sempre visibile e coerente col resto del sito */
+:where(a, button, input, textarea, select):focus-visible {
+  /* currentColor, non un token fisso: così l'anello resta visibile
+     sia sulle sezioni chiare (nero) sia sul fondo pieno di Booking
+     (bianco), senza bisogno di una variante per sfondo. */
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 1px;
 }
 
 /* ACCESSIBILITÀ: chi ha attivato "riduci movimento" nel sistema
