@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Archivo } from "next/font/google";
 import { SITE } from "@/lib/content";
+import { LinguaProvider } from "@/lib/useLingua";
 import "./globals.css";
 
 /* I due caratteri del sito, stile editoriale (Vogue / The
@@ -60,7 +61,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="it" className={`${bodoniModa.variable} ${archivo.variable}`}>
-      <body className="grana bg-carta antialiased">{children}</body>
+      <body className="grana bg-carta antialiased">
+        <LinguaProvider>{children}</LinguaProvider>
+      </body>
     </html>
   );
 }

@@ -10,8 +10,10 @@ import StatusSchedule from "@/components/StatusSchedule";
 import Galleria from "@/components/Galleria";
 import Contatti from "@/components/Contatti";
 import { useSmoothScroll } from "@/lib/useSmoothScroll";
+import { useLingua } from "@/lib/useLingua";
 
 export default function Home() {
+  const { t } = useLingua();
   /* Riferimento all'intera pagina: serve alla barra di avanzamento
      e, se vuoi, a qualsiasi effetto legato allo scroll globale. */
   const pageRef = useRef<HTMLElement>(null);
@@ -55,7 +57,7 @@ export default function Home() {
         href="#musica"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-inchiostro focus:px-4 focus:py-2 focus:text-carta"
       >
-        Vai al contenuto
+        {t.hero.vaiAlContenuto}
       </a>
 
       <main ref={pageRef} className="relative bg-carta">

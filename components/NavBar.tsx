@@ -1,64 +1,107 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence, useMotionValueEvent, useScroll } from "framer-motion";
-import { SITE, STATI } from "@/lib/content";
+import { SITE } from "@/lib/content";
 import { prossimaTappa } from "@/lib/agenda";
 import { DUR, EASE_OUT } from "@/lib/motion";
-
-const VOCI = [
-  { label: "Musica", href: "#musica" },
-  { label: "Liuteria", href: "#liuteria" },
-  { label: "Agenda", href: "#agenda" },
-  { label: "Contatti", href: "#contatti" },
-];
+import { useLingua } from "@/lib/useLingua";
+import { LINGUE } from "@/lib/dizionario";
 
 /* ============================================================
    MASTHEAD
    ------------------------------------------------------------
-   Niente fondo, niente sfocatura: il testo è sempre bianco puro
-   e la barra intera lavora in mix-blend-mode: difference, così
-   resta leggibile sia sulla copertina scura sia sulla carta
-   chiara sotto, senza bisogno di due stili diversi.
-   Sotto gli 80px di scroll compare solo una linea sottile, non un
-   fondo: è l'unico segnale che la pagina si è mossa.
+   In cima alla copertina niente fondo: il testo è bianco puro e
+   la barra lavora in mix-blend-mode: difference, così resta
+   leggibile sulla foto scura senza bisogno di un fondo. Superati
+   gli 80px di scroll il blend si spegne e la barra diventa un
+   fondo pieno (carta su inchiostro): da lì in poi il contenuto
+   scorre sotto, quindi serve un fondo solido per restare
+   leggibile, non più solo una linea sottile.
    ============================================================ */
 export default function NavBar() {
   const [compatta, setCompatta] = useState(false);
   const [menuAperto, setMenuAperto] = useState(false);
   const { scrollY } = useScroll();
+  const { lingua, impostaLingua, t } = useLingua();
 
   useMotionValueEvent(scrollY, "change", (v) => setCompatta(v > 80));
 
   const attuale = prossimaTappa();
 
+  const VOCI = [
+    { label: t.nav.musica, href: "/musica" },
+    { label: t.nav.liuteria, href: "/liuteria" },
+    { label: t.nav.agenda, href: "/#agenda" },
+    { label: t.nav.contatti, href: "/#contatti" },
+  ];
+
   return (
-    <header className="blend-nav fixed inset-x-0 top-0 z-40 text-white">
+    <header
+      className={`fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${
+        compatta ? "bg-carta text-inchiostro" : "blend-nav text-white"
+      }`}
+    >
       <nav
         className={`flex items-center justify-between border-b px-6 py-5 transition-colors duration-300 sm:px-10 lg:px-16 ${
-          compatta ? "border-white/25" : "border-transparent"
+          compatta ? "border-inchiostro/12" : "border-transparent"
         }`}
       >
-        <a
-          href="#hero"
+        <Link
+          href="/"
           className="display-section text-lg tracking-tight sm:text-xl"
         >
           {SITE.nome}
-        </a>
+        </Link>
 
         {/* Voci su desktop */}
         <ul className="hidden items-center gap-9 md:flex">
           {VOCI.map((v) => (
             <li key={v.href}>
-              <a href={v.href} className="kicker">
+              <Link href={v.href} className="kicker">
                 {v.label}
-              </a>
+              </Link>
             </li>
           ))}
           {/* Pillola di stato: dice subito cosa sta facendo */}
-          <li className="flex items-center gap-2 border border-white/30 px-3 py-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-white" aria-hidden />
-            <span className="kicker">{STATI[attuale.tipo].label}</span>
+          <li
+            className={`flex items-center gap-2 border px-3 py-1.5 transition-colors duration-300 ${
+              compatta ? "border-inchiostro/30" : "border-white/30"
+            }`}
+          >
+            <span
+              className={`h-1.5 w-1.5 rounded-full transition-colors duration-300 ${
+                compatta ? "bg-inchiostro" : "bg-white"
+              }`}
+              aria-hidden
+            />
+            <span className="kicker">{t.stati[attuale.tipo]}</span>
+          </li>
+
+          {/* Selettore lingua: IT / EN, la lingua attiva è piena,
+              l'altra è affievolita — nessuna bandiera, nessuna
+              icona, coerente col resto del sito. */}
+          <li
+            className={`flex items-center gap-1.5 ${
+              compatta ? "text-inchiostro" : "text-white"
+            }`}
+          >
+            {LINGUE.map((l, i) => (
+              <span key={l.codice} className="flex items-center gap-1.5">
+                {i > 0 && <span className="kicker opacity-30">/</span>}
+                <button
+                  type="button"
+                  onClick={() => impostaLingua(l.codice)}
+                  aria-pressed={lingua === l.codice}
+                  className={`kicker transition-opacity duration-200 ${
+                    lingua === l.codice ? "opacity-100" : "opacity-40 hover:opacity-70"
+                  }`}
+                >
+                  {l.label}
+                </button>
+              </span>
+            ))}
           </li>
         </ul>
 
@@ -69,7 +112,7 @@ export default function NavBar() {
           aria-controls="menu-mobile"
           className="kicker md:hidden"
         >
-          {menuAperto ? "Chiudi" : "Menu"}
+          {menuAperto ? t.nav.chiudi : t.nav.menu}
         </button>
       </nav>
 
@@ -90,15 +133,30 @@ export default function NavBar() {
           >
             {VOCI.map((v) => (
               <li key={v.href} className="border-b border-inchiostro/15 last:border-0">
-                <a
+                <Link
                   href={v.href}
                   onClick={() => setMenuAperto(false)}
                   className="display-section block py-4 text-2xl"
                 >
                   {v.label}
-                </a>
+                </Link>
               </li>
             ))}
+            <li className="flex items-center gap-3 py-4">
+              {LINGUE.map((l) => (
+                <button
+                  key={l.codice}
+                  type="button"
+                  onClick={() => impostaLingua(l.codice)}
+                  aria-pressed={lingua === l.codice}
+                  className={`kicker transition-opacity duration-200 ${
+                    lingua === l.codice ? "opacity-100" : "opacity-40"
+                  }`}
+                >
+                  {l.label}
+                </button>
+              ))}
+            </li>
           </motion.ul>
         )}
       </AnimatePresence>

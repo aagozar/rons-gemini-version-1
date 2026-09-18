@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { SITE } from "@/lib/content";
 import { VIEWPORT, riseUp, stagger } from "@/lib/motion";
 import Folio from "@/components/Folio";
+import { useLingua } from "@/lib/useLingua";
 
 type Esito = "fermo" | "invio" | "ok" | "errore";
 
@@ -19,6 +20,8 @@ const campo =
    ============================================================ */
 export default function Contatti() {
   const [esito, setEsito] = useState<Esito>("fermo");
+  const { t } = useLingua();
+  const c = t.contatti;
 
   async function invia(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -48,7 +51,7 @@ export default function Contatti() {
     <section
       id="contatti"
       className="relative bg-inchiostro px-6 py-24 text-carta sm:px-10 lg:px-16 lg:py-32"
-      aria-label="Contatti"
+      aria-label={c.kicker}
     >
       <Folio numero="96" chiaro />
 
@@ -62,21 +65,20 @@ export default function Contatti() {
         {/* ---------- COLONNA SINISTRA: SOCIAL ---------- */}
         <div>
           <motion.p variants={riseUp} className="kicker text-carta/55">
-            Contatti
+            {c.kicker}
           </motion.p>
 
           <motion.h2
             variants={riseUp}
             className="display-section mt-4 text-[clamp(2.5rem,7vw,5.5rem)]"
           >
-            Parliamone
+            {c.titolo}
           </motion.h2>
           <motion.p
             variants={riseUp}
             className="mt-6 max-w-[44ch] text-base leading-relaxed text-carta/65"
           >
-            Una data da fissare, una chitarra da costruire, un quadro da
-            portare a casa. Rispondo di persona, di solito entro due giorni.
+            {c.sottotitolo}
           </motion.p>
 
           <motion.div variants={riseUp} className="mt-10 flex gap-4">
@@ -103,21 +105,21 @@ export default function Contatti() {
         >
           <div>
             <label htmlFor="nome" className="kicker text-carta/50">
-              Nome
+              {c.nomeLabel}
             </label>
             <input
               id="nome"
               name="nome"
               required
               autoComplete="name"
-              placeholder="Come ti chiami"
+              placeholder={c.nomePlaceholder}
               className={`${campo} mt-2`}
             />
           </div>
 
           <div>
             <label htmlFor="email" className="kicker text-carta/50">
-              Email
+              {c.emailLabel}
             </label>
             <input
               id="email"
@@ -125,37 +127,51 @@ export default function Contatti() {
               type="email"
               required
               autoComplete="email"
-              placeholder="dove ti rispondo"
+              placeholder={c.emailPlaceholder}
+              className={`${campo} mt-2`}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="telefono" className="kicker text-carta/50">
+              {c.telefonoLabel} <span className="normal-case">{c.telefonoFacoltativo}</span>
+            </label>
+            <input
+              id="telefono"
+              name="telefono"
+              type="tel"
+              autoComplete="tel"
+              placeholder={c.telefonoPlaceholder}
               className={`${campo} mt-2`}
             />
           </div>
 
           <div>
             <label htmlFor="motivo" className="kicker text-carta/50">
-              Di cosa si tratta
+              {c.motivoLabel}
             </label>
             <select
               id="motivo"
               name="motivo"
               className={`${campo} mt-2 scheme-dark pr-6`}
             >
-              <option value="booking">Una data da fissare</option>
-              <option value="chitarra">Una chitarra su misura</option>
-              <option value="quadro">Un&apos;opera o una commissione</option>
-              <option value="altro">Altro</option>
+              <option value="booking">{c.motivoOpzioni.booking}</option>
+              <option value="chitarra">{c.motivoOpzioni.chitarra}</option>
+              <option value="quadro">{c.motivoOpzioni.quadro}</option>
+              <option value="altro">{c.motivoOpzioni.altro}</option>
             </select>
           </div>
 
           <div>
             <label htmlFor="messaggio" className="kicker text-carta/50">
-              Messaggio
+              {c.messaggioLabel}
             </label>
             <textarea
               id="messaggio"
               name="messaggio"
               rows={4}
               required
-              placeholder="Date, budget, tempi: più sei preciso, più la risposta è utile"
+              placeholder={c.messaggioPlaceholder}
               className={`${campo} mt-2 resize-none`}
             />
           </div>
@@ -165,19 +181,19 @@ export default function Contatti() {
             disabled={esito === "invio"}
             className="mt-2 self-start border border-carta px-8 py-4 text-xs font-medium uppercase tracking-[0.2em] text-carta transition-colors duration-300 hover:bg-carta hover:text-inchiostro disabled:opacity-40"
           >
-            {esito === "invio" ? "Invio in corso" : "Invia il messaggio"}
+            {esito === "invio" ? c.invioInCorso : c.invia}
           </button>
 
           {/* Messaggi di esito: dicono cosa è successo e cosa fare,
               senza scusarsi e senza frasi vaghe. */}
           {esito === "ok" && (
             <p role="status" className="text-sm text-carta">
-              Messaggio inviato. Ti rispondo entro due giorni.
+              {c.esitoOk}
             </p>
           )}
           {esito === "errore" && (
             <p role="alert" className="text-sm text-carta underline decoration-carta/40 underline-offset-4">
-              L&apos;invio non è riuscito. Riprova o scrivi direttamente a{" "}
+              {c.esitoErrorePrefisso}
               {SITE.email}.
             </p>
           )}

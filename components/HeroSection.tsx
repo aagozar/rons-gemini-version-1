@@ -12,6 +12,7 @@ import {
 import { SITE } from "@/lib/content";
 import { periodo, prossimaTappa } from "@/lib/agenda";
 import { DUR, EASE_OUT } from "@/lib/motion";
+import { useLingua } from "@/lib/useLingua";
 
 /* ============================================================
    COPERTINA — LOCANDINA/POSTER, come una cover di Vogue
@@ -94,7 +95,9 @@ export default function HeroSection() {
   const yTesto = useTransform(scrollYProgress, [0, 1], ["0%", "-40%"]);
   const opacitaTesto = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
+  const { lingua, t } = useLingua();
   const prossimoEvento = prossimaTappa();
+  const testiEvento = t.agenda.tappe[prossimoEvento.id];
 
   return (
     <section
@@ -161,14 +164,14 @@ export default function HeroSection() {
         <motion.div variants={sequenza} initial="hidden" animate="show" className="contents">
           {/* ---------- ALTO: evento · "proudly presents" ---------- */}
           <div className="flex items-start justify-between gap-6">
-            <Angolo valore={prossimoEvento.titolo} />
-            <Angolo valore={SITE.presenta} allineaDestra />
+            <Angolo valore={testiEvento.titolo} />
+            <Angolo valore={t.hero.presenta} allineaDestra />
           </div>
 
           {/* ---------- BASSO: data · luogo ---------- */}
           <div className="flex items-end justify-between gap-6">
-            <Angolo valore={periodo(prossimoEvento)} />
-            <Angolo valore={prossimoEvento.luogo} allineaDestra />
+            <Angolo valore={periodo(prossimoEvento, lingua === "en" ? "en-US" : "it-IT")} />
+            <Angolo valore={testiEvento.luogo} allineaDestra />
           </div>
         </motion.div>
       </motion.div>

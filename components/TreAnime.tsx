@@ -11,6 +11,7 @@ import {
 import { ANIME, type Anima } from "@/lib/content";
 import { DUR, EASE_OUT, VIEWPORT, riseUp, stagger } from "@/lib/motion";
 import Folio from "@/components/Folio";
+import { useLingua } from "@/lib/useLingua";
 
 /* ============================================================
    DUE SPREAD EDITORIALI: MUSICA E STRUMENTI (LIUTERIA)
@@ -65,6 +66,8 @@ function Spread({
 }) {
   const ref = useRef<HTMLElement>(null);
   const riduciMovimento = useReducedMotion();
+  const { t } = useLingua();
+  const testi = t.anime[anima.id];
 
   /* Parallasse interna al riquadro media, contenuta e discreta:
      coerente con la calma editoriale, non con un effetto da
@@ -86,7 +89,7 @@ function Spread({
       className={`relative border-t px-6 py-24 sm:px-10 lg:px-16 lg:py-32 hairline ${
         fondo === "carta-alt" ? "bg-carta-alt" : "bg-carta"
       }`}
-      aria-label={`${anima.titolo} — ${anima.occhiello}`}
+      aria-label={`${testi.titolo} — ${testi.occhiello}`}
     >
       <Folio numero={pagina} />
 
@@ -116,9 +119,9 @@ function Spread({
             {anima.daFare ? (
               <div className="flex h-full w-full items-center justify-center border border-dashed border-inchiostro/25 p-8">
                 <p className="max-w-[24ch] text-center text-sm leading-relaxed text-inchiostro/60">
-                  Foto di {anima.titolo.toLowerCase()} da scattare.
+                  {t.placeholderFoto.titolo(testi.titolo.toLowerCase())}
                   <br />
-                  Il riquadro è già pronto: carica il file e compare.
+                  {t.placeholderFoto.corpo}
                 </p>
               </div>
             ) : anima.tipo === "video" ? (
@@ -136,7 +139,7 @@ function Spread({
             ) : (
               <Image
                 src={anima.media}
-                alt={`${anima.titolo} — ${anima.occhiello}`}
+                alt={`${testi.titolo} — ${testi.occhiello}`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 55vw"
                 className="object-cover"
@@ -150,7 +153,7 @@ function Spread({
               velo su tutta la foto: basta a leggerla su qualunque
               immagine senza aggiungere un secondo strato decorativo. */}
           <p className="caption absolute bottom-4 left-4 bg-inchiostro px-2.5 py-1 text-carta">
-            {anima.didascalia}
+            {testi.didascalia}
           </p>
         </motion.div>
 
@@ -163,11 +166,11 @@ function Spread({
         >
           <div className="flex items-baseline gap-4">
             <span className="folio text-inchiostro/50">{numero}</span>
-            <p className="kicker text-inchiostro/50">{anima.occhiello}</p>
+            <p className="kicker text-inchiostro/50">{testi.occhiello}</p>
           </div>
 
           <h2 className="display-section mt-4 text-[clamp(2.5rem,6vw,5rem)]">
-            {anima.titolo}
+            {testi.titolo}
           </h2>
 
           <p
@@ -175,12 +178,12 @@ function Spread({
               specchiato ? "" : "dropcap"
             }`}
           >
-            {anima.testo}
+            {testi.testo}
           </p>
 
-          {anima.dettagli.length > 0 && (
+          {testi.dettagli.length > 0 && (
             <ol className="mt-8 space-y-3 border-t hairline pt-6">
-              {anima.dettagli.map((voce, i) => (
+              {testi.dettagli.map((voce, i) => (
                 <li key={voce} className="flex items-baseline gap-4">
                   <span className="folio text-inchiostro/50">
                     {String(i + 1).padStart(2, "0")}
@@ -195,7 +198,7 @@ function Spread({
             href={anima.cta.href}
             className="mt-8 inline-block border-b hairline pb-1 text-xs font-medium uppercase tracking-[0.2em] text-inchiostro transition-colors duration-200 hover:border-inchiostro"
           >
-            {anima.cta.label}
+            {testi.ctaLabel}
           </a>
         </motion.div>
       </div>

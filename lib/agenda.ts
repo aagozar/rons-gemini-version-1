@@ -46,13 +46,14 @@ export function prossimaTappa(oggi: Date = new Date()): Tappa {
 
 /* "Settembre 2026" per una tappa di un mese, "Ottobre — Novembre
    2026" per un intervallo, "Dicembre 2026 — Gennaio 2027" se
-   l'intervallo scavalca l'anno. */
-export function periodo(t: Tappa): string {
+   l'intervallo scavalca l'anno. Il locale ("it-IT" / "en-US")
+   decide solo il nome del mese: la struttura resta identica. */
+export function periodo(t: Tappa, locale: "it-IT" | "en-US" = "it-IT"): string {
   const dataInizio = inizio(t);
   const dataFine = t.dataFine ? fine(t) : dataInizio;
 
   const mese = (d: Date) =>
-    d.toLocaleDateString("it-IT", { month: "long" }).replace(/^./, (c) => c.toUpperCase());
+    d.toLocaleDateString(locale, { month: "long" }).replace(/^./, (c) => c.toUpperCase());
 
   const annoInizio = dataInizio.getFullYear();
   const annoFine = dataFine.getFullYear();

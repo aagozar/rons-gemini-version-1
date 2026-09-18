@@ -137,11 +137,13 @@ export const ANIME: Anima[] = [
    Le uso nella striscia sotto l'agenda. Aggiungine altre qui. */
 export const GALLERIA = [
   {
+    id: "microfono",
     src: "/img/live-microfono.jpg",
     alt: "Rons Gemini al microfono",
     didascalia: "Al microfono",
   },
   {
+    id: "palco",
     src: "/img/live-palco.jpg",
     alt: "Rons Gemini sul palco",
     didascalia: "Sul palco",
@@ -160,6 +162,10 @@ export const GALLERIA = [
 export type Tipologia = "tour" | "bottega" | "studio";
 
 export type Tappa = {
+  /* Identificatore stabile, usato da lib/dizionario.ts per associare
+     la traduzione inglese a questa tappa. Non cambiarlo una volta
+     pubblicato: se lo rinomini, aggiorna anche il dizionario. */
+  id: string;
   tipo: Tipologia;
   titolo: string;
   luogo: string;
@@ -167,14 +173,14 @@ export type Tappa = {
   dataFine?: string; // "AAAA-MM-GG" — lasciala vuota per un evento di un solo giorno/mese
 };
 
-export const STATI: Record<Tipologia, { label: string }> = {
-  tour: { label: "In tour" },
-  bottega: { label: "Chiuso in bottega" },
-  studio: { label: "In studio di registrazione" },
-};
+/* Le etichette di stato ("In tour", "Chiuso in bottega" ecc.), in
+   entrambe le lingue, sono in lib/dizionario.ts → stati. Qui resta
+   solo la lista Tipologia (sopra), che i componenti usano come
+   chiave per leggere l'etichetta giusta dal dizionario. */
 
 export const AGENDA: Tappa[] = [
   {
+    id: "mfw-2026",
     tipo: "tour",
     titolo: "MFW 2026 — Live Session",
     luogo: "Spazio Ventura, Milano",
@@ -182,6 +188,7 @@ export const AGENDA: Tappa[] = [
     dataFine: "2026-09-30",
   },
   {
+    id: "jazzbox-nicola",
     tipo: "bottega",
     titolo: "Una jazzbox in acero fiammato per Nicola R.",
     luogo: "Atelier Corso Garibaldi, Milano",
@@ -189,6 +196,7 @@ export const AGENDA: Tappa[] = [
     dataFine: "2026-11-30",
   },
   {
+    id: "ep-controluce",
     tipo: "studio",
     titolo: "Registrazione dell'EP «Controluce»",
     luogo: "Studio Meridiana, Navigli",

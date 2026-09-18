@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { STATI } from "@/lib/content";
 import { agendaOrdinata, inCorso, periodo, prossimaTappa } from "@/lib/agenda";
 import { VIEWPORT, riseUp, stagger } from "@/lib/motion";
 import Folio from "@/components/Folio";
+import { useLingua } from "@/lib/useLingua";
 
 /* ============================================================
    STATO E AGENDA
@@ -15,17 +15,22 @@ import Folio from "@/components/Folio";
    per opacità piena (nero) contro il 40-45% delle altre, non per
    colore. Dati e date si aggiornano in lib/content.ts → AGENDA;
    qual è la tappa "in corso" lo decide lib/agenda.ts confrontando
-   le date con quella di oggi.
+   le date con quella di oggi. I testi visibili (titoli, luoghi,
+   etichette di stato) arrivano dal dizionario, associati tramite
+   l'id di ogni tappa.
    ============================================================ */
 export default function StatusSchedule() {
+  const { lingua, t } = useLingua();
   const attuale = prossimaTappa();
   const agenda = agendaOrdinata();
+  const testiAttuale = t.agenda.tappe[attuale.id];
+  const locale = lingua === "en" ? "en-US" : "it-IT";
 
   return (
     <section
       id="agenda"
       className="relative border-t px-6 py-24 hairline bg-carta sm:px-10 lg:px-16 lg:py-32"
-      aria-label="Stato e agenda"
+      aria-label={t.agenda.kicker}
     >
       <Folio numero="44" />
 
@@ -38,21 +43,21 @@ export default function StatusSchedule() {
       >
         {/* ---------- STATO ATTUALE ---------- */}
         <motion.p variants={riseUp} className="kicker text-inchiostro/50">
-          In questo momento
+          {t.agenda.kicker}
         </motion.p>
 
         <motion.h2
           variants={riseUp}
           className="display-section mt-4 text-[clamp(2rem,5.5vw,4rem)]"
         >
-          {STATI[attuale.tipo].label}
+          {t.stati[attuale.tipo]}
         </motion.h2>
 
         <motion.p
           variants={riseUp}
           className="mt-4 max-w-[50ch] text-base text-inchiostro/70"
         >
-          {attuale.titolo} · {attuale.luogo}
+          {testiAttuale.titolo} · {testiAttuale.luogo}
         </motion.p>
 
         {/* ---------- TABELLA DELLE DATE ----------
@@ -64,45 +69,46 @@ export default function StatusSchedule() {
             <thead>
               <tr className="border-b hairline">
                 <th className="kicker pb-4 pr-6 font-medium text-inchiostro/45">
-                  Evento
+                  {t.agenda.colonne.evento}
                 </th>
                 <th className="kicker pb-4 pr-6 font-medium text-inchiostro/45">
-                  Luogo
+                  {t.agenda.colonne.luogo}
                 </th>
                 <th className="kicker pb-4 font-medium text-inchiostro/45">
-                  Data
+                  {t.agenda.colonne.data}
                 </th>
               </tr>
             </thead>
             <tbody>
               {agenda.map((tappa, i) => {
                 const corrente = inCorso(tappa);
+                const testiTappa = t.agenda.tappe[tappa.id];
                 return (
                   <tr
-                    key={`${tappa.titolo}-${i}`}
+                    key={`${tappa.id}-${i}`}
                     className="border-b hairline last:border-0"
                   >
-                    <td className="py-6 pr-6 align-top">
+                    <td className="py-6 pr-6 align-middle">
                       <p
                         className={`kicker ${
                           corrente ? "text-inchiostro" : "text-inchiostro/40"
                         }`}
                       >
-                        {STATI[tappa.tipo].label}
+                        {t.stati[tappa.tipo]}
                       </p>
                       <p
                         className={`display-section mt-2 text-lg sm:text-xl ${
                           corrente ? "text-inchiostro" : "text-inchiostro/70"
                         }`}
                       >
-                        {tappa.titolo}
+                        {testiTappa.titolo}
                       </p>
                     </td>
-                    <td className="py-6 pr-6 align-top text-sm text-inchiostro/60">
-                      {tappa.luogo}
+                    <td className="py-6 pr-6 align-middle text-sm text-inchiostro/60">
+                      {testiTappa.luogo}
                     </td>
-                    <td className="py-6 align-top text-sm text-inchiostro/60">
-                      {periodo(tappa)}
+                    <td className="py-6 align-middle text-sm text-inchiostro/60">
+                      {periodo(tappa, locale)}
                     </td>
                   </tr>
                 );
@@ -114,13 +120,13 @@ export default function StatusSchedule() {
         {/* ---------- CTA: PROPORRE UNA DATA ---------- */}
         <motion.div variants={riseUp} className="mt-14 border-t hairline pt-10">
           <p className="pull-quote max-w-[32ch] text-[clamp(1.25rem,2.5vw,1.75rem)] text-inchiostro/80">
-            Una nuova tappa da proporre?
+            {t.agenda.ctaTesto}
           </p>
           <a
             href="#contatti"
             className="mt-5 inline-block border-b hairline pb-1 text-xs font-medium uppercase tracking-[0.2em] text-inchiostro transition-colors duration-200 hover:border-inchiostro"
           >
-            Contattami
+            {t.agenda.ctaLabel}
           </a>
         </motion.div>
       </motion.div>
