@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { SITE } from "@/lib/content";
-import { VIEWPORT, riseUp, stagger } from "@/lib/motion";
+import { DUR, EASE_OUT, VIEWPORT, riseUp, stagger } from "@/lib/motion";
 import Folio from "@/components/Folio";
 import { useLingua } from "@/lib/useLingua";
 
@@ -25,8 +25,12 @@ export default function Contatti() {
 
   async function invia(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    /* Il form serve dopo l'invio riuscito (per svuotarlo): lo
+       salviamo subito, prima dell'await, così resta valido anche
+       se l'evento sintetico viene ripulito nel frattempo. */
+    const form = e.currentTarget;
     setEsito("invio");
-    const dati = Object.fromEntries(new FormData(e.currentTarget));
+    const dati = Object.fromEntries(new FormData(form));
 
     try {
       /* COLLEGA QUI IL TUO SERVIZIO DI INVIO.
@@ -42,6 +46,9 @@ export default function Contatti() {
       });
       if (!risposta.ok) throw new Error();
       setEsito("ok");
+      /* Campi puliti: è un secondo segnale, oltre al messaggio, che
+         l'invio è andato a buon fine — non solo testo da leggere. */
+      form.reset();
     } catch {
       setEsito("errore");
     }
@@ -185,18 +192,52 @@ export default function Contatti() {
           </button>
 
           {/* Messaggi di esito: dicono cosa è successo e cosa fare,
-              senza scusarsi e senza frasi vaghe. */}
-          {esito === "ok" && (
-            <p role="status" className="text-sm text-carta">
-              {c.esitoOk}
-            </p>
-          )}
-          {esito === "errore" && (
-            <p role="alert" className="text-sm text-carta underline decoration-carta/40 underline-offset-4">
-              {c.esitoErrorePrefisso}
-              {SITE.email}.
-            </p>
-          )}
+              senza scusarsi e senza frasi vaghe. Animati e con
+              un'icona (spunta per l'invio riuscito) perché un testo
+              piccolo sotto il bottone rischia di passare inosservato
+              — qui invece è un segnale che si vede subito. */}
+          <AnimatePresence mode="wait">
+            {esito === "ok" && (
+              <motion.p
+                key="ok"
+                role="status"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: DUR.fast, ease: EASE_OUT }}
+                className="flex items-center gap-2.5 border border-carta/40 bg-carta/[0.06] px-4 py-3 text-sm text-carta"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                  className="h-5 w-5 shrink-0"
+                >
+                  <circle cx="12" cy="12" r="9.5" />
+                  <path d="m7.5 12.5 3 3 6-6.5" />
+                </svg>
+                {c.esitoOk}
+              </motion.p>
+            )}
+            {esito === "errore" && (
+              <motion.p
+                key="errore"
+                role="alert"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: DUR.fast, ease: EASE_OUT }}
+                className="text-sm text-carta underline decoration-carta/40 underline-offset-4"
+              >
+                {c.esitoErrorePrefisso}
+                {SITE.email}.
+              </motion.p>
+            )}
+          </AnimatePresence>
         </motion.form>
       </motion.div>
 
