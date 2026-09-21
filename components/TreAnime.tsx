@@ -15,28 +15,19 @@ import { useLingua } from "@/lib/useLingua";
    lato, slideshow di foto dall'altro, separati da un filo
    verticale. Le due sezioni sono specchiate (Musica: testo a
    sinistra, foto a destra — Liuteria: il contrario) così non si
-   ripetono una nell'altra. Solo Liuteria prende il fondo "carta
-   alternativa", l'unica variazione di fondo prevista dal brief.
+   ripetono una nell'altra. Stesso fondo bianco per entrambe.
    ============================================================ */
 export default function TreAnime() {
   const [musica, liuteria] = ANIME;
 
   return (
     <>
-      {musica && (
-        <ArticoloDoppiaPagina
-          anima={musica}
-          numero="01"
-          pagina="12"
-          fondo="carta"
-        />
-      )}
+      {musica && <ArticoloDoppiaPagina anima={musica} numero="01" pagina="12" />}
       {liuteria && (
         <ArticoloDoppiaPagina
           anima={liuteria}
           numero="02"
           pagina="28"
-          fondo="carta-alt"
           invertito
         />
       )}
@@ -114,13 +105,11 @@ function ArticoloDoppiaPagina({
   anima,
   numero,
   pagina,
-  fondo,
   invertito = false,
 }: {
   anima: Anima;
   numero: string;
   pagina: string;
-  fondo: "carta" | "carta-alt";
   invertito?: boolean;
 }) {
   const { t } = useLingua();
@@ -201,9 +190,7 @@ function ArticoloDoppiaPagina({
       whileInView="show"
       viewport={VIEWPORT}
       variants={stagger(0, 0.1)}
-      className={`relative border-t px-6 py-24 hairline sm:px-10 lg:px-16 lg:py-32 ${
-        fondo === "carta-alt" ? "bg-carta-alt" : "bg-carta"
-      }`}
+      className="relative border-t px-6 py-24 hairline bg-carta sm:px-10 lg:px-16 lg:py-32"
       aria-label={`${testi.titolo} — ${testi.occhiello}`}
     >
       <Folio numero={pagina} />
