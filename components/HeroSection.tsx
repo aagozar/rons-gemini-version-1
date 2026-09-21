@@ -1,18 +1,25 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
+  AnimatePresence,
   motion,
   useScroll,
   useTransform,
   useReducedMotion,
   type Variants,
 } from "framer-motion";
-import { SITE } from "@/lib/content";
+import { HERO_GALLERIA, SITE } from "@/lib/content";
 import { periodo, prossimaTappa } from "@/lib/agenda";
 import { DUR, EASE_OUT } from "@/lib/motion";
 import { useLingua } from "@/lib/useLingua";
+
+/* Quanto resta in scena ogni diapositiva prima di dissolversi
+   nella successiva. Stesso tempo per foto e video: è la
+   dissolvenza incrociata a fare il lavoro, non la durata del
+   singolo file. */
+const DURATA_SLIDE = 6000;
 
 /* ============================================================
    COPERTINA — LOCANDINA/POSTER, come una cover di Vogue
@@ -99,6 +106,20 @@ export default function HeroSection() {
   const prossimoEvento = prossimaTappa();
   const testiEvento = t.agenda.tappe[prossimoEvento.id];
 
+  /* Avanza da una diapositiva alla successiva ogni DURATA_SLIDE ms.
+     Con "riduci movimento" attivo la galleria resta ferma sulla
+     prima immagine, niente dissolvenze né zoom. */
+  const [indiceSlide, setIndiceSlide] = useState(0);
+  useEffect(() => {
+    if (riduciMovimento || HERO_GALLERIA.length <= 1) return;
+    const id = setInterval(() => {
+      setIndiceSlide((i) => (i + 1) % HERO_GALLERIA.length);
+    }, DURATA_SLIDE);
+    return () => clearInterval(id);
+  }, [riduciMovimento]);
+
+  const slide = HERO_GALLERIA[indiceSlide];
+
   return (
     <section
       ref={sezioneRef}
@@ -106,46 +127,58 @@ export default function HeroSection() {
       className="relative h-[100svh] min-h-[620px] w-full overflow-hidden bg-inchiostro"
       aria-label="Copertina"
     >
-      {/* ---------- LIVELLO 1: SFONDO (foto o video) ---------- */}
+      {/* ---------- LIVELLO 1: SFONDO — GALLERIA A DISSOLVENZA ----------
+          Foto e video si alternano ogni DURATA_SLIDE ms, sempre in
+          bianco e nero (grayscale su ogni singolo layer). L'uscita
+          e l'entrata sono sovrapposte (AnimatePresence in modalità
+          "sync", il default): è quello che crea la dissolvenza
+          incrociata invece di uno stacco secco. */}
       <motion.div
         style={riduciMovimento ? undefined : { y: yFoto, scale: scalaFoto }}
         className="absolute inset-0 h-full w-full"
       >
-        {SITE.heroTipo === "immagine" ? (
-          /* Zoom lentissimo (effetto Ken Burns). Con una foto sola
-             il movimento deve essere quasi impercettibile: 20
-             secondi per un 8% di ingrandimento. */
+        <AnimatePresence>
           <motion.div
+            key={indiceSlide}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: EASE_OUT }}
             className="absolute inset-0"
-            initial={{ scale: 1 }}
-            animate={riduciMovimento ? undefined : { scale: 1.08 }}
-            transition={{ duration: 20, ease: "linear" }}
           >
-            <Image
-              src={SITE.heroImmagine}
-              alt="Rons Gemini dal vivo"
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-[42%_center] grayscale"
-            />
-          </motion.div>
-        ) : (
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            poster={SITE.heroPoster}
-            className="h-full w-full object-cover object-center grayscale"
-          >
-            {SITE.heroVideoWebm && (
-              <source src={SITE.heroVideoWebm} type="video/webm" />
+            {slide.tipo === "immagine" ? (
+              /* Zoom lentissimo (effetto Ken Burns), tarato sulla
+                 durata della diapositiva stessa. */
+              <motion.div
+                className="absolute inset-0"
+                initial={{ scale: 1 }}
+                animate={riduciMovimento ? undefined : { scale: 1.08 }}
+                transition={{ duration: DURATA_SLIDE / 1000 + 1, ease: "linear" }}
+              >
+                <Image
+                  src={slide.media}
+                  alt="Rons Gemini dal vivo"
+                  fill
+                  priority={indiceSlide === 0}
+                  sizes="100vw"
+                  className="object-cover object-center grayscale"
+                />
+              </motion.div>
+            ) : (
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                poster={slide.poster}
+                className="h-full w-full object-cover object-center grayscale"
+              >
+                <source src={slide.media} type="video/mp4" />
+              </video>
             )}
-            <source src={SITE.heroVideoMp4} type="video/mp4" />
-          </video>
-        )}
+          </motion.div>
+        </AnimatePresence>
       </motion.div>
 
       {/* ---------- LIVELLO 2: UN SOLO VELO SCURO ----------

@@ -13,6 +13,13 @@
    colore. Se aggiungi un mestiere, non serve inventare una tinta.
    ============================================================ */
 
+/* Una "diapositiva" della galleria in copertina: foto o video,
+   sempre in bianco e nero (il grayscale lo applica il componente,
+   qui basta il file a colori). */
+export type HeroSlide =
+  | { tipo: "immagine"; media: string }
+  | { tipo: "video"; media: string; poster?: string };
+
 export type Anima = {
   id: "musica" | "liuteria";
   titolo: string;
@@ -37,21 +44,11 @@ export const SITE = {
   sottotitolo:
     "Le chitarre le suono e le costruisco. Stesso legno, stesse mani, due modi di farlo parlare.",
 
-  /* ---------- APERTURA ----------
-     "immagine" usa la tua foto live con un lentissimo zoom.
-     "video" usa il video qui sotto. Vedi la nota in fondo al file
-     sul perché adesso è impostato su "immagine". */
-  heroTipo: "immagine" as "immagine" | "video",
-
-  /* La foto con la luce verde di palco: è il tuo scatto più forte */
+  /* La foto con la luce verde di palco: è il tuo scatto più forte.
+     Resta anche l'immagine usata per l'anteprima social (vedi
+     app/layout.tsx). Lo sfondo della copertina vero e proprio è la
+     galleria qui sotto, HERO_GALLERIA. */
   heroImmagine: "/img/hero-live.jpg",
-
-  /* QUANDO AVRAI IL VIDEO GIUSTO, METTILO QUI E CAMBIA heroTipo.
-     Serve: palco buio, luci colorate, primi piani, 1920×1080,
-     8-10 secondi, girato in orizzontale. */
-  heroVideoMp4: "/video/hero-loop.mp4",
-  heroVideoWebm: "/video/hero-loop.webm",
-  heroPoster: "/img/hero-live.jpg",
 
   /* Riga in alto a destra sulla copertina, stile "proudly
      presents" da locandina. Cambiala pure se vuoi un'altra frase. */
@@ -70,6 +67,17 @@ export const SITE = {
      stampata sopra: serve il suo ok per usarla sul sito. */
   creditiFoto: "Foto live: Rhomie Valenzuela Photography",
 };
+
+/* ---------- GALLERIA IN COPERTINA ----------
+   Lo sfondo della hero non è più una foto/video sola: è una
+   sequenza che si dissolve dall'una nell'altra (vedi
+   components/HeroSection.tsx). Restano tutte in bianco e nero.
+   PER AGGIUNGERNE UNA: aggiungi una voce qui, stesso formato. */
+export const HERO_GALLERIA: HeroSlide[] = [
+  { tipo: "immagine", media: SITE.heroImmagine },
+  { tipo: "immagine", media: "/img/rons2.jfif" },
+  { tipo: "video", media: "/video/live2.mp4" },
+];
 
 export const ANIME: Anima[] = [
   {
@@ -209,6 +217,7 @@ export const AGENDA: Tappa[] = [
    NOTE SUI TUOI MEDIA (stato al 13 settembre 2026)
    ------------------------------------------------------------
    COSA C'È ADESSO
+   · Copertina galleria di 3 diapositive (HERO_GALLERIA) a dissolvenza
    · Musica    foto live in apertura + video tagliato nel pannello
    · Liuteria  la semiacustica in lavorazione, ritagliata stretta
    · Galleria  due scatti dal vivo
@@ -223,6 +232,7 @@ export const AGENDA: Tappa[] = [
      del monitor): serve lo scatto originale.
    · Le foto live sono a bassa risoluzione: chiedi gli originali
      al fotografo, il salto di qualità è gratis.
-   · Il video di apertura: palco buio, orizzontale, 1920×1080,
-     8-10 secondi. Poi basta mettere heroTipo: "video".
+   · rons2.jfif e live2.mp4 sono provvisori (formato .jfif, non
+     ottimizzato): quando hai i file definitivi, sostituiscili in
+     /public e aggiorna i percorsi in HERO_GALLERIA qui sopra.
    ============================================================ */
