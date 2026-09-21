@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useMotionValueEvent, useScroll } from "framer-motion";
 import { SITE } from "@/lib/content";
-import { prossimaTappa } from "@/lib/agenda";
 import { DUR, EASE_OUT } from "@/lib/motion";
 import { useLingua } from "@/lib/useLingua";
 import { LINGUE } from "@/lib/dizionario";
@@ -27,8 +26,6 @@ export default function NavBar() {
   const { lingua, impostaLingua, t } = useLingua();
 
   useMotionValueEvent(scrollY, "change", (v) => setCompatta(v > 80));
-
-  const attuale = prossimaTappa();
 
   const VOCI = [
     { label: t.nav.musica, href: "/musica" },
@@ -64,21 +61,6 @@ export default function NavBar() {
               </Link>
             </li>
           ))}
-          {/* Pillola di stato: dice subito cosa sta facendo */}
-          <li
-            className={`flex items-center gap-2 border px-3 py-1.5 transition-colors duration-300 ${
-              compatta ? "border-inchiostro/30" : "border-white/30"
-            }`}
-          >
-            <span
-              className={`h-1.5 w-1.5 rounded-full transition-colors duration-300 ${
-                compatta ? "bg-inchiostro" : "bg-white"
-              }`}
-              aria-hidden
-            />
-            <span className="kicker">{t.stati[attuale.tipo]}</span>
-          </li>
-
           {/* Selettore lingua: IT / EN, la lingua attiva è piena,
               l'altra è affievolita — nessuna bandiera, nessuna
               icona, coerente col resto del sito. */}
