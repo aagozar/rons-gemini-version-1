@@ -86,7 +86,7 @@ export const SITE = {
    PER AGGIUNGERNE UNA: aggiungi una voce qui, stesso formato. */
 export const HERO_GALLERIA: HeroSlide[] = [
   { tipo: "immagine", media: SITE.heroImmagine },
-  { tipo: "immagine", media: "/img/rons2.jfif" },
+  { tipo: "immagine", media: "/img/rons2.jpg" },
   { tipo: "video", media: "/video/live2.mp4" },
 ];
 
@@ -110,7 +110,7 @@ export const ANIME: Anima[] = [
     immaginiArticolo: ["/img/live-palco.jpg", "/img/live-microfono.jpg"],
     slideshowStoria: [
       "/img/hero-live.jpg",
-      "/img/rons2.jfif",
+      "/img/rons2.jpg",
       "/img/live-microfono.jpg",
       "/img/live-palco.jpg",
     ],
@@ -133,11 +133,11 @@ export const ANIME: Anima[] = [
        restano leggibili accanto al numero. */
     dettagli: ["Legni scelti a mano", "Manico su misura", "Finitura a tampone"],
     cta: { label: "Richiedi una chitarra", href: "#contatti" },
-    immaginiArticolo: ["/img/guitars1.jfif", "/img/guitars2.jfif"],
+    immaginiArticolo: ["/img/guitars1.jpg", "/img/guitars2.jpg"],
     slideshowStoria: [
       "/img/liuteria-chitarra.jpg",
-      "/img/guitars1.jfif",
-      "/img/guitars2.jfif",
+      "/img/guitars1.jpg",
+      "/img/guitars2.jpg",
       "/img/tessuti-borsa.jpg",
     ],
   },
@@ -260,7 +260,10 @@ export const AGENDA: Tappa[] = [
      del monitor): serve lo scatto originale.
    · Le foto live sono a bassa risoluzione: chiedi gli originali
      al fotografo, il salto di qualità è gratis.
-   · rons2.jfif e live2.mp4 sono provvisori (formato .jfif, non
-     ottimizzato): quando hai i file definitivi, sostituiscili in
-     /public e aggiorna i percorsi in HERO_GALLERIA qui sopra.
+   · rons2.jpg, guitars1.jpg, guitars2.jpg e live2.mp4 sono
+     provvisori: quando hai i file definitivi, sostituiscili in
+     /public con lo stesso nome (restano .jpg, non .jfif — Vercel
+     rifiuta quell'estensione nell'ottimizzazione immagini con
+     l'errore INVALID_IMAGE_OPTIMIZE_REQUEST anche se il file è di
+     fatto un JPEG).
    ============================================================ */
