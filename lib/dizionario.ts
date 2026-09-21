@@ -72,7 +72,6 @@ export type Dizionario = {
   };
   agenda: {
     kicker: string;
-    colonne: { evento: string; luogo: string; data: string };
     ctaTesto: string;
     ctaLabel: string;
     tappe: Record<string, TestiTappa>;
@@ -157,7 +156,6 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
     },
     agenda: {
       kicker: "In questo momento",
-      colonne: { evento: "Evento", luogo: "Luogo", data: "Data" },
       ctaTesto: "Una nuova tappa da proporre?",
       ctaLabel: "Contattami",
       tappe: {
@@ -257,7 +255,6 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
     },
     agenda: {
       kicker: "Right now",
-      colonne: { evento: "Event", luogo: "Venue", data: "Date" },
       ctaTesto: "Got a date to propose?",
       ctaLabel: "Get in touch",
       tappe: {

@@ -23,7 +23,7 @@ export default function Galleria() {
       className="border-t px-6 py-20 hairline bg-carta sm:px-10 lg:px-16"
       aria-label={t.galleria.aria}
     >
-      <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 sm:gap-10">
+      <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 sm:gap-10 2xl:max-w-6xl">
         {GALLERIA.map((foto, i) => {
           const testiFoto = t.galleria.foto[foto.id];
           return (
@@ -54,7 +54,7 @@ export default function Galleria() {
       </div>
 
       {/* I crediti al fotografo stanno sotto le foto, dove servono */}
-      <p className="mx-auto mt-8 max-w-5xl text-xs text-inchiostro/45">
+      <p className="mx-auto mt-8 max-w-5xl text-xs text-inchiostro/45 2xl:max-w-6xl">
         {SITE.creditiFoto}
       </p>
     </section>

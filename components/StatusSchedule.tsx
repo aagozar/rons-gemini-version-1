@@ -9,15 +9,16 @@ import { useLingua } from "@/lib/useLingua";
 /* ============================================================
    STATO E AGENDA
    ------------------------------------------------------------
-   Una tabella, non più una linea del tempo con segnatasti: tre
-   colonne — evento, luogo, data — come un vero calendario di
-   date. Bianco e nero soltanto: la tappa in corso si distingue
-   per opacità piena (nero) contro il 40-45% delle altre, non per
-   colore. Dati e date si aggiornano in lib/content.ts → AGENDA;
-   qual è la tappa "in corso" lo decide lib/agenda.ts confrontando
-   le date con quella di oggi. I testi visibili (titoli, luoghi,
-   etichette di stato) arrivano dal dizionario, associati tramite
-   l'id di ogni tappa.
+   Lista di date in stile vogue.com/shows: non più una tabella,
+   ma righe impilate separate da un filo — ogni riga mostra data,
+   nome dell'evento e luogo, in quest'ordine. Bianco e nero
+   soltanto: la tappa in corso si distingue per opacità piena
+   (nero) contro il 40-45% delle altre, non per colore. Dati e
+   date si aggiornano in lib/content.ts → AGENDA; qual è la tappa
+   "in corso" lo decide lib/agenda.ts confrontando le date con
+   quella di oggi. I testi visibili (titoli, luoghi, etichette di
+   stato) arrivano dal dizionario, associati tramite l'id di ogni
+   tappa.
    ============================================================ */
 export default function StatusSchedule() {
   const { lingua, t } = useLingua();
@@ -39,7 +40,7 @@ export default function StatusSchedule() {
         initial="hidden"
         whileInView="show"
         viewport={VIEWPORT}
-        className="mx-auto max-w-4xl"
+        className="mx-auto max-w-4xl 2xl:max-w-5xl"
       >
         {/* ---------- STATO ATTUALE ---------- */}
         <motion.p variants={riseUp} className="kicker text-inchiostro/50">
@@ -60,62 +61,46 @@ export default function StatusSchedule() {
           {testiAttuale.titolo} · {testiAttuale.luogo}
         </motion.p>
 
-        {/* ---------- TABELLA DELLE DATE ----------
-            overflow-x-auto + min-width: su mobile scorre in
-            orizzontale invece di schiacciare le colonne — lo
-            stesso trucco di un vero calendario di sfilate. */}
-        <motion.div variants={riseUp} className="mt-16 overflow-x-auto">
-          <table className="w-full min-w-[600px] border-collapse text-left">
-            <thead>
-              <tr className="border-b hairline">
-                <th className="kicker pb-4 pr-6 font-medium text-inchiostro/45">
-                  {t.agenda.colonne.evento}
-                </th>
-                <th className="kicker pb-4 pr-6 font-medium text-inchiostro/45">
-                  {t.agenda.colonne.luogo}
-                </th>
-                <th className="kicker pb-4 font-medium text-inchiostro/45">
-                  {t.agenda.colonne.data}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {agenda.map((tappa, i) => {
-                const corrente = inCorso(tappa);
-                const testiTappa = t.agenda.tappe[tappa.id];
-                return (
-                  <tr
-                    key={`${tappa.id}-${i}`}
-                    className="border-b hairline last:border-0"
-                  >
-                    <td className="py-6 pr-6 align-middle">
-                      <p
-                        className={`kicker ${
-                          corrente ? "text-inchiostro" : "text-inchiostro/40"
-                        }`}
-                      >
-                        {t.stati[tappa.tipo]}
-                      </p>
-                      <p
-                        className={`display-section mt-2 text-lg sm:text-xl ${
-                          corrente ? "text-inchiostro" : "text-inchiostro/70"
-                        }`}
-                      >
-                        {testiTappa.titolo}
-                      </p>
-                    </td>
-                    <td className="py-6 pr-6 align-middle text-sm text-inchiostro/60">
-                      {testiTappa.luogo}
-                    </td>
-                    <td className="py-6 align-middle text-sm text-inchiostro/60">
-                      {periodo(tappa, locale)}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </motion.div>
+        {/* ---------- LISTA DELLE DATE ----------
+            Una riga per tappa: data, nome, luogo, separate da un
+            filo — come le liste di sfilate di vogue.com. */}
+        <div className="mt-16">
+          {agenda.map((tappa, i) => {
+            const corrente = inCorso(tappa);
+            const testiTappa = t.agenda.tappe[tappa.id];
+            return (
+              <motion.div
+                key={`${tappa.id}-${i}`}
+                variants={riseUp}
+                className="border-b hairline py-8 first:pt-0 last:border-0"
+              >
+                <p className="kicker text-inchiostro/45">
+                  {periodo(tappa, locale)}
+                </p>
+
+                <p
+                  className={`display-section mt-3 text-[clamp(1.5rem,4vw,2.5rem)] ${
+                    corrente ? "text-inchiostro" : "text-inchiostro/70"
+                  }`}
+                >
+                  {testiTappa.titolo}
+                </p>
+
+                <p
+                  className={`kicker mt-2 ${
+                    corrente ? "text-inchiostro/60" : "text-inchiostro/40"
+                  }`}
+                >
+                  {t.stati[tappa.tipo]}
+                </p>
+
+                <p className="mt-5 text-sm text-inchiostro/60">
+                  {testiTappa.luogo}
+                </p>
+              </motion.div>
+            );
+          })}
+        </div>
 
         {/* ---------- CTA: PROPORRE UNA DATA ---------- */}
         <motion.div variants={riseUp} className="mt-14 border-t hairline pt-10">

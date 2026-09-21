@@ -60,7 +60,7 @@ export default function Contatti() {
         initial="hidden"
         whileInView="show"
         viewport={VIEWPORT}
-        className="mx-auto grid max-w-6xl gap-16 lg:grid-cols-2 lg:gap-20"
+        className="mx-auto grid max-w-6xl gap-16 lg:grid-cols-2 lg:gap-20 2xl:max-w-7xl"
       >
         {/* ---------- COLONNA SINISTRA: SOCIAL ---------- */}
         <div>
@@ -200,7 +200,7 @@ export default function Contatti() {
         </motion.form>
       </motion.div>
 
-      <div className="mx-auto mt-24 max-w-6xl border-t border-carta/15 pt-8 text-xs text-carta/45">
+      <div className="mx-auto mt-24 max-w-6xl border-t border-carta/15 pt-8 text-xs text-carta/45 2xl:max-w-7xl">
         © {new Date().getFullYear()} {SITE.nome} · {SITE.creditiFoto}
       </div>
     </section>

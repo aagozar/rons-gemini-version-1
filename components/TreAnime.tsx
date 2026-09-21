@@ -94,7 +94,7 @@ function Spread({
       <Folio numero={pagina} />
 
       <div
-        className={`mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-12 lg:gap-x-16 ${
+        className={`mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-12 lg:gap-x-16 2xl:max-w-7xl ${
           specchiato ? "" : ""
         }`}
       >

@@ -42,13 +42,19 @@ body {
    font-variation-settings porta insieme peso E corpo ottico
    (opsz): ai pesi grandi da copertina/titolo, opsz basso
    ispessisce le aste sottili della Bodoni — è il fix di
-   leggibilità richiesto, non un dettaglio decorativo.
+   leggibilità richiesto, non un dettaglio decorativo. La Bodoni
+   Moda va da wght 400 a 900 e da opsz 6 a 96: i pesi qui sotto
+   sono stati alzati (600→700 sui titoli, 500/400→600/500 su
+   citazioni e didascalie) perché ai valori bassi le aste sottili
+   tipiche di una didone diventavano illeggibili, specie nei
+   corsivi piccoli. L'opsz basso resta il vero correttivo: più è
+   vicino al minimo (6), più i tratti sottili si ispessiscono.
    ============================================================ */
 
 /* Copertina "RONS GEMINI" */
 .display-cover {
   font-family: var(--font-display);
-  font-variation-settings: "wght" 600, "opsz" 16;
+  font-variation-settings: "wght" 700, "opsz" 16;
   text-transform: uppercase;
   line-height: 0.86;
   letter-spacing: -0.01em;
@@ -57,7 +63,7 @@ body {
 /* Titoli di sezione */
 .display-section {
   font-family: var(--font-display);
-  font-variation-settings: "wght" 600, "opsz" 14;
+  font-variation-settings: "wght" 700, "opsz" 14;
   line-height: 0.92;
 }
 
@@ -65,7 +71,7 @@ body {
 .pull-quote {
   font-family: var(--font-display);
   font-style: italic;
-  font-variation-settings: "wght" 500;
+  font-variation-settings: "wght" 600, "opsz" 24;
   line-height: 1.3;
 }
 
@@ -73,7 +79,7 @@ body {
 .caption {
   font-family: var(--font-display);
   font-style: italic;
-  font-variation-settings: "wght" 400;
+  font-variation-settings: "wght" 500, "opsz" 8;
   font-size: 13px;
   opacity: 0.62;
 }

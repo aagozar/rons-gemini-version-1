@@ -98,7 +98,7 @@ export default function PaginaMestiere({
         >
           <Folio numero={numero} />
 
-          <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-12 lg:gap-x-16">
+          <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-12 lg:gap-x-16 2xl:max-w-7xl">
             <motion.p
               variants={riseUp}
               className="dropcap max-w-[60ch] text-[15px] leading-[1.75] text-inchiostro/80 lg:col-span-7"
@@ -132,7 +132,7 @@ export default function PaginaMestiere({
           {/* ---------- RIMANDO ALL'ALTRO MESTIERE ---------- */}
           <motion.div
             variants={riseUp}
-            className="mx-auto mt-24 max-w-6xl border-t hairline pt-8"
+            className="mx-auto mt-24 max-w-6xl border-t hairline pt-8 2xl:max-w-7xl"
           >
             <Link
               href={altro.href}
