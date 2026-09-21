@@ -32,6 +32,15 @@ type TestiAnima = {
   dettagli: string[];
   ctaLabel: string;
   didascalia: string;
+  /* Racconto esteso per la pagina dedicata (PaginaMestiere): un
+     paragrafo per voce, più una citazione facoltativa a metà
+     pezzo. Se assenti, la pagina usa "testo" come paragrafo unico
+     — è quello che succede oggi per Liuteria. */
+  paragrafi?: string[];
+  pullQuote?: string;
+  /* Didascalie delle foto d'articolo (anima.immaginiArticolo in
+     lib/content.ts), nello stesso ordine. */
+  didascalieArticolo?: string[];
 };
 
 type TestiTappa = {
@@ -139,6 +148,17 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
         dettagli: [],
         ctaLabel: "Guarda le date",
         didascalia: "Live, Milano — voce e chitarra",
+        paragrafi: [
+          "Tutto comincia con un accordo suonato piano, in una stanza vuota, molto prima che ci sia un pubblico ad ascoltarlo. Rons Gemini scrive canzoni come si scrivono lettere: a voce sola, senza fretta, lasciando che il silenzio tra una frase e l'altra dica quanto le parole.",
+          "Dal vivo cambia tutto. La chitarra si fa più dura, la voce cerca l'ultima fila della sala. Nei locali di Milano, alle feste private, nelle serate acustiche in solo o con la band, il repertorio si piega ogni volta al posto e a chi ascolta — mai la stessa scaletta due volte.",
+          "Il prossimo passo è lo studio: l'EP «Controluce» raccoglie quello che il palco ha insegnato in questi anni, registrato con la stessa cura con cui si costruisce una chitarra — nota per nota, senza scorciatoie.",
+        ],
+        pullQuote:
+          "Un concerto non è una canzone suonata bene. È una stanza che per un'ora respira alla stessa velocità.",
+        didascalieArticolo: [
+          "Sul palco, a metà di un set che cambia ogni volta",
+          "Un attimo prima di entrare in una canzone",
+        ],
       },
       liuteria: {
         titolo: "Liuteria",
@@ -238,6 +258,17 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
         dettagli: [],
         ctaLabel: "See the dates",
         didascalia: "Live, Milan — voice and guitar",
+        paragrafi: [
+          "It starts with a chord played softly, in an empty room, long before anyone is there to hear it. Rons Gemini writes songs the way people write letters — one voice, no hurry, letting the silence between lines say what the words don't.",
+          "Live, everything changes. The guitar gets harder, the voice reaches for the back row. In Milan's venues, at private parties, on acoustic evenings solo or with the band, the set bends to the room every time — never the same show twice.",
+          "The next step is the studio: the EP «Controluce» gathers what the stage has taught over these years, recorded with the same care that goes into building a guitar — note by note, no shortcuts.",
+        ],
+        pullQuote:
+          "A concert isn't a song played well. It's a room that breathes at the same speed for an hour.",
+        didascalieArticolo: [
+          "On stage, mid-way through a set that's never the same twice",
+          "A beat before stepping into a song",
+        ],
       },
       liuteria: {
         titolo: "Lutherie",

@@ -4,19 +4,60 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Anima } from "@/lib/content";
+import type { Dizionario } from "@/lib/dizionario";
 import { DUR, EASE_OUT, VIEWPORT, riseUp, stagger } from "@/lib/motion";
 import NavBar from "@/components/NavBar";
 import Folio from "@/components/Folio";
 import { useLingua } from "@/lib/useLingua";
 
+/* Un "blocco" del corpo dell'articolo: paragrafo, citazione in
+   evidenza o foto. Costruito una volta sola da paragrafi/pullQuote/
+   immaginiArticolo, così il JSX sotto si limita a leggerlo. */
+type Blocco =
+  | { tipo: "testo"; contenuto: string }
+  | { tipo: "citazione"; contenuto: string }
+  | { tipo: "immagine"; src: string; didascalia?: string };
+
+/* Il primo paragrafo resta nella colonna con capolettera accanto
+   ai numeri strumento (vedi sotto): qui si costruisce solo il
+   "resto" del racconto — gli altri paragrafi, ciascuno seguito
+   dalla propria foto quando c'è, con la citazione inserita a
+   metà per spezzare il ritmo. Se un mestiere non ha ancora un
+   racconto esteso (solo "testo", niente "paragrafi"), il risultato
+   è semplicemente vuoto e la pagina resta come prima. */
+function costruisciResto(anima: Anima, testi: Dizionario["anime"]["musica"]): Blocco[] {
+  const restoParagrafi = (testi.paragrafi ?? []).slice(1);
+  const blocchi: Blocco[] = [];
+
+  restoParagrafi.forEach((paragrafo, i) => {
+    blocchi.push({ tipo: "testo", contenuto: paragrafo });
+    const src = anima.immaginiArticolo[i];
+    if (src) {
+      blocchi.push({ tipo: "immagine", src, didascalia: testi.didascalieArticolo?.[i] });
+    }
+  });
+
+  if (testi.pullQuote) {
+    blocchi.splice(Math.ceil(blocchi.length / 2), 0, {
+      tipo: "citazione",
+      contenuto: testi.pullQuote,
+    });
+  }
+
+  return blocchi;
+}
+
 /* ============================================================
    PAGINA DEDICATA (Musica / Liuteria)
    ------------------------------------------------------------
    Stesso linguaggio editoriale dello spread sulla home (vedi
-   TreAnime.tsx): copertina propria in cima, poi testo e numeri
-   strumento. Qui però ogni mestiere ha una pagina intera, non
-   solo un blocco nello scroll — utile per condividere il link
-   diretto a "Musica" o "Liuteria" da sole.
+   TreAnime.tsx): copertina propria in cima, poi il racconto vero
+   e proprio, come un articolo di rivista — non solo una scheda.
+   Il primo paragrafo apre con capolettera accanto ai numeri
+   strumento e alla call to action; il resto del racconto scorre
+   sotto, foto e citazione a spezzare il testo. Ogni mestiere ha
+   una pagina intera, utile per condividere il link diretto a
+   "Musica" o "Liuteria" da sole.
    ============================================================ */
 export default function PaginaMestiere({
   anima,
@@ -30,6 +71,8 @@ export default function PaginaMestiere({
   const riduciMovimento = useReducedMotion();
   const { t } = useLingua();
   const testi = t.anime[anima.id];
+  const primoParagrafo = testi.paragrafi?.[0] ?? testi.testo;
+  const resto = costruisciResto(anima, testi);
 
   return (
     <>
@@ -103,7 +146,7 @@ export default function PaginaMestiere({
               variants={riseUp}
               className="dropcap max-w-[60ch] text-[15px] leading-[1.75] text-inchiostro/80 lg:col-span-7"
             >
-              {testi.testo}
+              {primoParagrafo}
             </motion.p>
 
             <motion.div variants={riseUp} className="lg:col-span-5">
@@ -128,6 +171,61 @@ export default function PaginaMestiere({
               </a>
             </motion.div>
           </div>
+
+          {/* ---------- SEGUITO DEL RACCONTO ----------
+              Paragrafi in colonna stretta (misura di lettura), le
+              foto invece a piena larghezza del contenitore — il
+              contrasto tipico di uno spread di rivista. Vuoto (e
+              quindi invisibile) per i mestieri senza "paragrafi". */}
+          {resto.length > 0 && (
+            <motion.div
+              variants={riseUp}
+              className="mx-auto mt-16 max-w-6xl space-y-10 2xl:max-w-7xl"
+            >
+              {resto.map((blocco, i) => {
+                if (blocco.tipo === "testo") {
+                  return (
+                    <p
+                      key={i}
+                      className="max-w-[62ch] text-[15px] leading-[1.75] text-inchiostro/80"
+                    >
+                      {blocco.contenuto}
+                    </p>
+                  );
+                }
+
+                if (blocco.tipo === "citazione") {
+                  return (
+                    <blockquote key={i} className="max-w-[46ch] border-t hairline pt-8">
+                      <p className="pull-quote text-[clamp(1.5rem,3.5vw,2.25rem)] text-inchiostro/85">
+                        {blocco.contenuto}
+                      </p>
+                    </blockquote>
+                  );
+                }
+
+                return (
+                  <figure
+                    key={i}
+                    className="relative aspect-video w-full overflow-hidden bg-inchiostro/5"
+                  >
+                    <Image
+                      src={blocco.src}
+                      alt={blocco.didascalia ?? testi.titolo}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 80vw"
+                      className="object-cover grayscale"
+                    />
+                    {blocco.didascalia && (
+                      <figcaption className="caption absolute bottom-4 left-4 bg-inchiostro px-2.5 py-1 text-carta">
+                        {blocco.didascalia}
+                      </figcaption>
+                    )}
+                  </figure>
+                );
+              })}
+            </motion.div>
+          )}
 
           {/* ---------- RIMANDO ALL'ALTRO MESTIERE ---------- */}
           <motion.div

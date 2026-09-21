@@ -37,6 +37,12 @@ export type Anima = {
      Il pannello mostra un avviso invece di un'immagine rotta. */
   daFare?: boolean;
   cta: { label: string; href: string };
+  /* Foto che spezzano il racconto nella pagina dedicata (vedi
+     components/PaginaMestiere.tsx) — come le immagini a corredo di
+     un articolo di rivista, non la copertina. Le didascalie sono
+     in lib/dizionario.ts (stesso indice). Lascia [] se il mestiere
+     non ha ancora un racconto esteso. */
+  immaginiArticolo: string[];
 };
 
 export const SITE = {
@@ -96,6 +102,7 @@ export const ANIME: Anima[] = [
     didascalia: "Live, Milano — voce e chitarra",
     dettagli: [],
     cta: { label: "Guarda le date", href: "#agenda" },
+    immaginiArticolo: ["/img/live-palco.jpg", "/img/live-microfono.jpg"],
   },
   {
     id: "liuteria",
@@ -115,6 +122,7 @@ export const ANIME: Anima[] = [
        restano leggibili accanto al numero. */
     dettagli: ["Legni scelti a mano", "Manico su misura", "Finitura a tampone"],
     cta: { label: "Richiedi una chitarra", href: "#contatti" },
+    immaginiArticolo: [],
   },
 ];
 
