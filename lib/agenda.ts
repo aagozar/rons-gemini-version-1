@@ -68,3 +68,17 @@ export function periodo(t: Tappa, locale: "it-IT" | "en-US" = "it-IT"): string {
   }
   return `${meseInizio} ${annoInizio} — ${meseFine} ${annoFine}`;
 }
+
+/* Il giorno esatto di inizio, non un intervallo: "1 settembre
+   2026". Serve alla data ben visibile e in grassetto, a destra
+   nella lista concerti, alla stessa altezza del nome dell'evento. */
+export function dataEsatta(t: Tappa, locale: "it-IT" | "en-US" = "it-IT"): string {
+  const dataInizio = inizio(t);
+  const giorno = dataInizio.getDate();
+  const mese = dataInizio
+    .toLocaleDateString(locale, { month: "long" })
+    .replace(/^./, (c) => c.toUpperCase());
+  const anno = dataInizio.getFullYear();
+
+  return `${giorno} ${mese} ${anno}`;
+}

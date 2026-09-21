@@ -161,11 +161,11 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
       tappe: {
         "mfw-2026": { titolo: "MFW 2026 — Live Session", luogo: "Spazio Ventura, Milano" },
         "jazzbox-nicola": {
-          titolo: "Una jazzbox in acero fiammato per Nicola R.",
+          titolo: "Jazzbox — Nicola R.",
           luogo: "Atelier Corso Garibaldi, Milano",
         },
         "ep-controluce": {
-          titolo: "Registrazione dell'EP «Controluce»",
+          titolo: "EP «Controluce»",
           luogo: "Studio Meridiana, Navigli",
         },
       },
@@ -260,11 +260,11 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
       tappe: {
         "mfw-2026": { titolo: "MFW 2026 — Live Session", luogo: "Spazio Ventura, Milan" },
         "jazzbox-nicola": {
-          titolo: "A flamed-maple jazzbox for Nicola R.",
+          titolo: "Jazzbox — Nicola R.",
           luogo: "Atelier Corso Garibaldi, Milan",
         },
         "ep-controluce": {
-          titolo: "Recording the EP «Controluce»",
+          titolo: "EP «Controluce»",
           luogo: "Studio Meridiana, Navigli",
         },
       },

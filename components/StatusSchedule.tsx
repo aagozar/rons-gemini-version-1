@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { agendaOrdinata, inCorso, periodo, prossimaTappa } from "@/lib/agenda";
+import { agendaOrdinata, dataEsatta, inCorso, prossimaTappa } from "@/lib/agenda";
 import { VIEWPORT, riseUp, stagger } from "@/lib/motion";
 import Folio from "@/components/Folio";
 import { useLingua } from "@/lib/useLingua";
@@ -62,8 +62,10 @@ export default function StatusSchedule() {
         </motion.p>
 
         {/* ---------- LISTA DELLE DATE ----------
-            Una riga per tappa: data, nome, luogo, separate da un
-            filo — come le liste di sfilate di vogue.com. */}
+            Una riga per tappa: stato in alto, poi nome dell'evento
+            e data esatta fratelli nello stesso flex — così restano
+            alla stessa altezza — la data in grassetto a destra,
+            bene in vista. Il luogo chiude la riga sotto. */}
         <div className="mt-16">
           {agenda.map((tappa, i) => {
             const corrente = inCorso(tappa);
@@ -74,25 +76,31 @@ export default function StatusSchedule() {
                 variants={riseUp}
                 className="border-b hairline py-8 first:pt-0 last:border-0"
               >
-                <p className="kicker text-inchiostro/45">
-                  {periodo(tappa, locale)}
-                </p>
-
                 <p
-                  className={`display-section mt-3 text-[clamp(1.5rem,4vw,2.5rem)] ${
-                    corrente ? "text-inchiostro" : "text-inchiostro/70"
-                  }`}
-                >
-                  {testiTappa.titolo}
-                </p>
-
-                <p
-                  className={`kicker mt-2 ${
+                  className={`kicker ${
                     corrente ? "text-inchiostro/60" : "text-inchiostro/40"
                   }`}
                 >
                   {t.stati[tappa.tipo]}
                 </p>
+
+                <div className="mt-3 flex items-start justify-between gap-6">
+                  <p
+                    className={`display-section text-[clamp(1.5rem,4vw,2.5rem)] ${
+                      corrente ? "text-inchiostro" : "text-inchiostro/70"
+                    }`}
+                  >
+                    {testiTappa.titolo}
+                  </p>
+
+                  <p
+                    className={`shrink-0 text-right font-bold text-base sm:text-lg ${
+                      corrente ? "text-inchiostro" : "text-inchiostro/60"
+                    }`}
+                  >
+                    {dataEsatta(tappa, locale)}
+                  </p>
+                </div>
 
                 <p className="mt-5 text-sm text-inchiostro/60">
                   {testiTappa.luogo}

@@ -190,7 +190,7 @@ export const AGENDA: Tappa[] = [
   {
     id: "jazzbox-nicola",
     tipo: "bottega",
-    titolo: "Una jazzbox in acero fiammato per Nicola R.",
+    titolo: "Jazzbox — Nicola R.",
     luogo: "Atelier Corso Garibaldi, Milano",
     dataInizio: "2026-10-01",
     dataFine: "2026-11-30",
@@ -198,7 +198,7 @@ export const AGENDA: Tappa[] = [
   {
     id: "ep-controluce",
     tipo: "studio",
-    titolo: "Registrazione dell'EP «Controluce»",
+    titolo: "EP «Controluce»",
     luogo: "Studio Meridiana, Navigli",
     dataInizio: "2026-12-01",
     dataFine: "2026-12-31",
