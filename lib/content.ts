@@ -70,7 +70,7 @@ export const SITE = {
     instagram: "https://instagram.com/ronsgemini",
     facebook: "https://facebook.com/ronsgemini",
   },
-  email: "booking@ronsgemini.it",
+  email: "salavariaronnie@gmail.com",
   citta: "Milano, IT",
 
   /* CREDITI FOTOGRAFICI — vanno messi, anche solo nel footer.
