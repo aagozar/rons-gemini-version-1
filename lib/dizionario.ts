@@ -41,6 +41,11 @@ type TestiAnima = {
   /* Didascalie delle foto d'articolo (anima.immaginiArticolo in
      lib/content.ts), nello stesso ordine. */
   didascalieArticolo?: string[];
+  /* Frase-ponte verso l'altro mestiere, integrata nel racconto
+     (es. "costruisce anche le chitarre che suona →"). L'indirizzo
+     è deciso dal componente, qui c'è solo il testo. Facoltativa:
+     serve solo dove il racconto lo prevede (oggi, Musica). */
+  collegamentoAltro?: string;
 };
 
 type TestiTappa = {
@@ -149,16 +154,16 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
         ctaLabel: "Guarda le date",
         didascalia: "Live, Milano — voce e chitarra",
         paragrafi: [
-          "Tutto comincia con un accordo suonato piano, in una stanza vuota, molto prima che ci sia un pubblico ad ascoltarlo. Rons Gemini scrive canzoni come si scrivono lettere: a voce sola, senza fretta, lasciando che il silenzio tra una frase e l'altra dica quanto le parole.",
-          "Dal vivo cambia tutto. La chitarra si fa più dura, la voce cerca l'ultima fila della sala. Nei locali di Milano, alle feste private, nelle serate acustiche in solo o con la band, il repertorio si piega ogni volta al posto e a chi ascolta — mai la stessa scaletta due volte.",
-          "Il prossimo passo è lo studio: l'EP «Controluce» raccoglie quello che il palco ha insegnato in questi anni, registrato con la stessa cura con cui si costruisce una chitarra — nota per nota, senza scorciatoie.",
+          "Polistrumentista nato nelle Filippine, Rons Gemini ha portato la musica in giro per il mondo prima ancora che diventasse un mestiere: voce, chitarra e uno strumento nuovo a ogni tappa, il percorso comincia lontano da qui.",
+          "Per un periodo si stabilisce alle Maldive, frontman di un gruppo tra i più richiesti dell'arcipelago, sul palco dei resort più esclusivi — ogni sera un pubblico internazionale diverso, la stessa intensità richiesta comunque.",
+          "Poi l'Italia, dove porta lo stesso talento in eventi pubblici e privati, dal vivo, in solo o con la band. E le chitarre, oltre a suonarle, le costruisce anche a mano, una alla volta.",
         ],
-        pullQuote:
-          "Un concerto non è una canzone suonata bene. È una stanza che per un'ora respira alla stessa velocità.",
+        pullQuote: "Il pubblico cambia continente. La musica no.",
         didascalieArticolo: [
           "Sul palco, a metà di un set che cambia ogni volta",
           "Un attimo prima di entrare in una canzone",
         ],
+        collegamentoAltro: "Le chitarre le costruisce anche a mano →",
       },
       liuteria: {
         titolo: "Liuteria",
@@ -168,6 +173,14 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
         dettagli: ["Legni scelti a mano", "Manico su misura", "Finitura a tampone"],
         ctaLabel: "Richiedi una chitarra",
         didascalia: "In lavorazione, bottega di Milano",
+        paragrafi: [
+          "Ogni chitarra nasce una alla volta, mai in serie: il legno si sceglie a mano, il manico si modella sulla mano di chi la suonerà, la finitura si stende a tampone, passata dopo passata, finché il colore del legno non viene fuori da solo.",
+          "In bottega non si costruisce soltanto: si ripara quello che altri darebbero per perso, e le stesse mani che intagliano un manico cuciono anche oggetti in pelle e tessuto — borse comprese — con la stessa cura per ogni materiale.",
+          "Per chi vuole più di uno strumento comprato: percorsi guidati, passo per passo, per costruire con le proprie mani la chitarra che poi si suonerà per anni.",
+        ],
+        pullQuote: "La chitarra che suoni meglio è quella che hai costruito tu.",
+        didascalieArticolo: ["Al banco, tra gli attrezzi", "Un manico ancora da rifinire"],
+        collegamentoAltro: "Le stesse mani suonano anche dal vivo →",
       },
     },
     placeholderFoto: {
@@ -259,16 +272,16 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
         ctaLabel: "See the dates",
         didascalia: "Live, Milan — voice and guitar",
         paragrafi: [
-          "It starts with a chord played softly, in an empty room, long before anyone is there to hear it. Rons Gemini writes songs the way people write letters — one voice, no hurry, letting the silence between lines say what the words don't.",
-          "Live, everything changes. The guitar gets harder, the voice reaches for the back row. In Milan's venues, at private parties, on acoustic evenings solo or with the band, the set bends to the room every time — never the same show twice.",
-          "The next step is the studio: the EP «Controluce» gathers what the stage has taught over these years, recorded with the same care that goes into building a guitar — note by note, no shortcuts.",
+          "A multi-instrumentalist born in the Philippines, Rons Gemini carried music around the world before it ever became a job: voice, guitar and a new instrument at every stop, the journey starts far from here.",
+          "For a while he settled in the Maldives, fronting one of the archipelago's most in-demand bands, on stage at its most exclusive resorts — a different international crowd every night, the same intensity expected regardless.",
+          "Then Italy, where he brings the same talent to public and private events, live, solo or with the band. And the guitars — beyond playing them, he builds them by hand too, one at a time.",
         ],
-        pullQuote:
-          "A concert isn't a song played well. It's a room that breathes at the same speed for an hour.",
+        pullQuote: "The audience changes continent. The music doesn't.",
         didascalieArticolo: [
           "On stage, mid-way through a set that's never the same twice",
           "A beat before stepping into a song",
         ],
+        collegamentoAltro: "He also builds the guitars he plays →",
       },
       liuteria: {
         titolo: "Lutherie",
@@ -278,6 +291,14 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
         dettagli: ["Hand-picked woods", "Neck made to measure", "French-polish finish"],
         ctaLabel: "Commission a guitar",
         didascalia: "In progress, Milan workshop",
+        paragrafi: [
+          "Every guitar is built one at a time, never in series: the wood is chosen by hand, the neck shaped to the hands that will play it, the finish laid on with a cloth, coat after coat, until the wood's own colour comes through on its own.",
+          "The workshop isn't only for building: it repairs what others would give up on, and the same hands that carve a neck also stitch leather and fabric — bags included — with the same care for every material.",
+          "For anyone who wants more than a guitar bought off the shelf: guided, step-by-step courses to build with your own hands the guitar you'll play for years.",
+        ],
+        pullQuote: "The guitar you play best is the one you built yourself.",
+        didascalieArticolo: ["At the bench, among the tools", "A neck still waiting to be finished"],
+        collegamentoAltro: "The same hands play live too →",
       },
     },
     placeholderFoto: {

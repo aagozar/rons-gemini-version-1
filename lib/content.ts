@@ -43,6 +43,11 @@ export type Anima = {
      in lib/dizionario.ts (stesso indice). Lascia [] se il mestiere
      non ha ancora un racconto esteso. */
   immaginiArticolo: string[];
+  /* Foto per la slideshow della "pagina destra" nello spread in
+     homepage (vedi TreAnime.tsx) — il lato immagine dell'articolo
+     a doppia pagina. Lascia [] per restare sul singolo media/ratio
+     qui sopra, come oggi fa Liuteria. */
+  slideshowStoria: string[];
 };
 
 export const SITE = {
@@ -103,6 +108,12 @@ export const ANIME: Anima[] = [
     dettagli: [],
     cta: { label: "Guarda le date", href: "#agenda" },
     immaginiArticolo: ["/img/live-palco.jpg", "/img/live-microfono.jpg"],
+    slideshowStoria: [
+      "/img/hero-live.jpg",
+      "/img/rons2.jfif",
+      "/img/live-microfono.jpg",
+      "/img/live-palco.jpg",
+    ],
   },
   {
     id: "liuteria",
@@ -122,17 +133,26 @@ export const ANIME: Anima[] = [
        restano leggibili accanto al numero. */
     dettagli: ["Legni scelti a mano", "Manico su misura", "Finitura a tampone"],
     cta: { label: "Richiedi una chitarra", href: "#contatti" },
-    immaginiArticolo: [],
+    immaginiArticolo: ["/img/guitars1.jfif", "/img/guitars2.jfif"],
+    slideshowStoria: [
+      "/img/liuteria-chitarra.jpg",
+      "/img/guitars1.jfif",
+      "/img/guitars2.jfif",
+      "/img/tessuti-borsa.jpg",
+    ],
   },
 ];
 
 
 /* ---------- PITTURA E TESSUTI — MESSA DA PARTE ----------
-   Tolta su tua richiesta. Il file della borsa è ancora in
-   public/img/tessuti-borsa.jpg, non l'ho cancellato.
-   PER RIMETTERLA: togli i commenti qui sotto, incolla la voce
-   dentro ANIME, e riaggiungi "pittura" all'unione di tipi in cima
-   al file e la voce nel menu in components/NavBar.tsx.
+   Tolta su tua richiesta. Il file della borsa (tessuti-borsa.jpg)
+   ora è riusato nella slideshow di Liuteria qui sopra — il
+   racconto lì parla anche di oggetti in pelle e tessuto, quindi
+   la foto torna utile. Se lo togli da lì, resta comunque in
+   public/img, non l'ho cancellato.
+   PER RIMETTERE QUESTA SEZIONE: togli i commenti qui sotto, incolla
+   la voce dentro ANIME, e riaggiungi "pittura" all'unione di tipi
+   in cima al file e la voce nel menu in components/NavBar.tsx.
 
   {
     id: "pittura",
