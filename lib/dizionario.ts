@@ -21,8 +21,8 @@
 export type Lingua = "it" | "en";
 
 export const LINGUE: { codice: Lingua; label: string }[] = [
-  { codice: "it", label: "IT" },
   { codice: "en", label: "EN" },
+  { codice: "it", label: "IT" },
 ];
 
 type TestiAnima = {

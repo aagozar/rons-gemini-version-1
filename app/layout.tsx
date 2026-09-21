@@ -60,7 +60,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="it" className={`${bodoniModa.variable} ${archivo.variable}`}>
+    <html lang="en" className={`${bodoniModa.variable} ${archivo.variable}`}>
       <body className="grana bg-carta antialiased">
         <LinguaProvider>{children}</LinguaProvider>
       </body>
