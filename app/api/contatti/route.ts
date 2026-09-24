@@ -11,22 +11,19 @@ import { Resend } from "resend";
    1. Crea un account gratuito su https://resend.com
    2. Genera una API key (Dashboard → API Keys)
    3. Mettila in .env.local come RESEND_API_KEY=... (vedi .env.example)
-   Senza dominio verificato su Resend puoi usare subito il mittente
-   di default "onboarding@resend.dev": funziona senza configurare
-   nient'altro. Se in futuro verifichi un dominio tuo, imposta
-   RESEND_FROM con un indirizzo su quel dominio.
+   Il dominio ronsgemini.com è verificato su Resend, quindi il
+   mittente di default è contatti@ronsgemini.com. Per usarne un
+   altro (sempre su quel dominio) imposta RESEND_FROM. NON usare
+   "onboarding@resend.dev": è il mittente di prova, che consegna
+   solo all'indirizzo di iscrizione dell'account e per qualunque
+   altro destinatario fa rispondere 502 al form.
    ============================================================ */
 
-/* RESEND_TO: override temporaneo per test. Finché il dominio del
-   sito non è verificato su Resend (resend.com/domains), l'account
-   può inviare SOLO al proprio indirizzo di iscrizione — qualunque
-   altro destinatario viene rifiutato con errore 403. Impostando
-   RESEND_TO in .env.local si può testare l'invio end-to-end verso
-   quell'indirizzo. Una volta verificato il dominio vero, basta
-   togliere RESEND_TO (o non impostarlo in produzione): si torna
-   in automatico a salavariaronnie@gmail.com. */
+/* RESEND_TO: override per test. Se impostata, le email vanno a
+   quell'indirizzo invece che a salavariaronnie@gmail.com. Non
+   impostarla in produzione. */
 const DESTINATARIO = process.env.RESEND_TO ?? "salavariaronnie@gmail.com";
-const MITTENTE = process.env.RESEND_FROM ?? "Rons Gemini <onboarding@resend.dev>";
+const MITTENTE = process.env.RESEND_FROM ?? "Rons Gemini <contatti@ronsgemini.com>";
 
 const EMAIL_VALIDA = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
