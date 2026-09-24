@@ -228,6 +228,11 @@ export type Tappa = {
   /* Sito del locale o dell'evento (facoltativo). Se c'è, il nome
      del luogo — la parte prima della virgola — diventa un link. */
   link?: string;
+  /* Locandina o immagine dell'evento (facoltativa), un file in
+     /public — es. "/img/locandina-mfw-2026.jpg". Se c'è, la tappa
+     "prossimo evento" in agenda la mostra come la locandina di un
+     film, col nome dell'evento sotto. Formato verticale. */
+  locandina?: string;
 };
 
 /* Le etichette di stato ("In tour", "Chiuso in bottega" ecc.), in
@@ -241,8 +246,10 @@ export const AGENDA: Tappa[] = [
     tipo: "tour",
     titolo: "Milano Fashion Week 2026",
     luogo: "Officine Del Volo, Milano",
-    dataInizio: "2026-09-24",
+    dataInizio: "2026-09-25",
+    dataFine: "2026-09-26",
     link: "https://www.officinedelvolo.it/",
+    locandina: "/img/locandina-mfw-2026.jpg",
   },
   /* Eventi privati: solo la tipologia e la città, niente nomi. */
   {

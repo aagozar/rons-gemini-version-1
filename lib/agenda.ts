@@ -69,9 +69,10 @@ export function periodo(t: Tappa, locale: "it-IT" | "en-US" = "it-IT"): string {
   return `${meseInizio} ${annoInizio} — ${meseFine} ${annoFine}`;
 }
 
-/* Il giorno esatto di inizio, non un intervallo: "1 settembre
-   2026". Serve alla data ben visibile e in grassetto, a destra
-   nella lista concerti, alla stessa altezza del nome dell'evento. */
+/* Il giorno esatto di inizio: "1 settembre 2026". Se la tappa
+   dura più giorni nello stesso mese, "25–26 Settembre 2026".
+   Serve alla data ben visibile e in grassetto, a destra nella
+   lista concerti, alla stessa altezza del nome dell'evento. */
 export function dataEsatta(t: Tappa, locale: "it-IT" | "en-US" = "it-IT"): string {
   const dataInizio = inizio(t);
   const giorno = dataInizio.getDate();
@@ -80,5 +81,14 @@ export function dataEsatta(t: Tappa, locale: "it-IT" | "en-US" = "it-IT"): strin
     .replace(/^./, (c) => c.toUpperCase());
   const anno = dataInizio.getFullYear();
 
-  return `${giorno} ${mese} ${anno}`;
+  const dataFine = t.dataFine ? fine(t) : undefined;
+  const stessoMese =
+    dataFine &&
+    dataFine.getMonth() === dataInizio.getMonth() &&
+    dataFine.getFullYear() === anno &&
+    dataFine.getDate() !== giorno;
+
+  return stessoMese
+    ? `${giorno}–${dataFine.getDate()} ${mese} ${anno}`
+    : `${giorno} ${mese} ${anno}`;
 }

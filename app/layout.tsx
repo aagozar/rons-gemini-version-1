@@ -31,7 +31,7 @@ const archivo = Archivo({
    Su Vercel: Settings → Environment Variables → NEXT_PUBLIC_SITE_URL
    con il tuo dominio. Senza, resta il valore qui sotto. */
 const URL_SITO =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://ronsgemini.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://ronsgemini.com";
 
 /* themeColor va nell'export viewport, non in metadata: è il colore
    della barra del browser su Android e su iOS. */

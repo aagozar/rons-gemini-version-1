@@ -61,6 +61,9 @@ type TestiAnima = {
 type TestiTappa = {
   titolo: string;
   luogo?: string; // assente per gli eventi privati
+  /* Breve testo di presentazione (facoltativo): compare accanto
+     alla locandina, nel blocco del prossimo evento. */
+  descrizione?: string;
 };
 
 export type Dizionario = {
@@ -216,7 +219,12 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
       ctaTesto: "Una nuova tappa da proporre?",
       ctaLabel: "Contattami",
       tappe: {
-        "mfw-2026": { titolo: "Milano Fashion Week 2026", luogo: "Officine Del Volo, Milano" },
+        "mfw-2026": {
+          titolo: "Milano Fashion Week 2026",
+          luogo: "Officine Del Volo, Milano",
+          descrizione:
+            "Due giorni di sfilate, un pop-up store e una mostra d'arte alle Officine Del Volo, nel cuore della Milano Fashion Week. Rons Gemini sale sul palco per il momento live dell'evento: voce e chitarra, lo stesso suono acustico e intimo che porta nei locali più piccoli, qui davanti a un pubblico internazionale di addetti ai lavori e appassionati di moda.",
+        },
         "matrimonio-ottobre-2026": { titolo: "Matrimonio", luogo: "Location privata, Milano" },
         "privato-dicembre-2026": { titolo: "Evento privato", luogo: "Location privata, Milano" },
       },
@@ -344,7 +352,12 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
       ctaTesto: "Got a date to propose?",
       ctaLabel: "Get in touch",
       tappe: {
-        "mfw-2026": { titolo: "Milan Fashion Week 2026", luogo: "Officine Del Volo, Milan" },
+        "mfw-2026": {
+          titolo: "Milan Fashion Week 2026",
+          luogo: "Officine Del Volo, Milan",
+          descrizione:
+            "Two days of runway shows, a pop-up store and an art exhibition at Officine Del Volo, at the heart of Milan Fashion Week. Rons Gemini takes the stage for the event's live moment: voice and guitar, the same intimate acoustic sound he brings to smaller venues, here in front of an international crowd of industry insiders and fashion lovers.",
+        },
         "matrimonio-ottobre-2026": { titolo: "Wedding", luogo: "Private location, Milan" },
         "privato-dicembre-2026": { titolo: "Private event", luogo: "Private location, Milan" },
       },

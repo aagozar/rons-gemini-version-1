@@ -25,7 +25,7 @@ npm run dev          # http://localhost:3000
    output directory.
 3. A deploy finito, in **Settings → Environment Variables** aggiungi
    `NEXT_PUBLIC_SITE_URL` con l'indirizzo vero (es.
-   `https://ronsgemini.it`). Serve solo a far funzionare l'anteprima
+   `https://ronsgemini.com`). Serve solo a far funzionare l'anteprima
    quando condividi il link su WhatsApp o Facebook.
 4. **Settings → Domains** per collegare il dominio, se ne hai uno.
 
