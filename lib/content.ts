@@ -244,17 +244,19 @@ export const AGENDA: Tappa[] = [
     dataInizio: "2026-09-24",
     link: "https://www.officinedelvolo.it/",
   },
-  /* Eventi privati: solo la tipologia, niente nomi né luogo. */
+  /* Eventi privati: solo la tipologia e la città, niente nomi. */
   {
     id: "matrimonio-ottobre-2026",
     tipo: "tour",
     titolo: "Matrimonio",
+    luogo: "Location privata, Milano",
     dataInizio: "2026-10-01",
   },
   {
     id: "privato-dicembre-2026",
     tipo: "tour",
     titolo: "Evento privato",
+    luogo: "Location privata, Milano",
     dataInizio: "2026-12-01",
   },
 ];

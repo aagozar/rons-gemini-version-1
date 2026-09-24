@@ -217,8 +217,8 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
       ctaLabel: "Contattami",
       tappe: {
         "mfw-2026": { titolo: "Milano Fashion Week 2026", luogo: "Officine Del Volo, Milano" },
-        "matrimonio-ottobre-2026": { titolo: "Matrimonio" },
-        "privato-dicembre-2026": { titolo: "Evento privato" },
+        "matrimonio-ottobre-2026": { titolo: "Matrimonio", luogo: "Location privata, Milano" },
+        "privato-dicembre-2026": { titolo: "Evento privato", luogo: "Location privata, Milano" },
       },
     },
     galleria: {
@@ -345,8 +345,8 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
       ctaLabel: "Get in touch",
       tappe: {
         "mfw-2026": { titolo: "Milan Fashion Week 2026", luogo: "Officine Del Volo, Milan" },
-        "matrimonio-ottobre-2026": { titolo: "Wedding" },
-        "privato-dicembre-2026": { titolo: "Private event" },
+        "matrimonio-ottobre-2026": { titolo: "Wedding", luogo: "Private location, Milan" },
+        "privato-dicembre-2026": { titolo: "Private event", luogo: "Private location, Milan" },
       },
     },
     galleria: {
