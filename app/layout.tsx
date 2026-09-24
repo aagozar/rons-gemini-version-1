@@ -41,7 +41,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(URL_SITO),
-  title: `${SITE.nome} — chitarre suonate e costruite a mano`,
+  title: SITE.nome,
   description: SITE.sottotitolo,
   openGraph: {
     title: SITE.nome,
