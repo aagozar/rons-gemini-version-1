@@ -60,7 +60,7 @@ type TestiAnima = {
 
 type TestiTappa = {
   titolo: string;
-  luogo: string;
+  luogo?: string; // assente per gli eventi privati
 };
 
 export type Dizionario = {
@@ -216,15 +216,9 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
       ctaTesto: "Una nuova tappa da proporre?",
       ctaLabel: "Contattami",
       tappe: {
-        "mfw-2026": { titolo: "MFW 2026 — Live Session", luogo: "Spazio Ventura, Milano" },
-        "jazzbox-nicola": {
-          titolo: "Jazzbox — Nicola R.",
-          luogo: "Atelier Corso Garibaldi, Milano",
-        },
-        "ep-controluce": {
-          titolo: "EP «Controluce»",
-          luogo: "Studio Meridiana, Navigli",
-        },
+        "mfw-2026": { titolo: "Milano Fashion Week 2026", luogo: "Officine Del Volo, Milano" },
+        "matrimonio-ottobre-2026": { titolo: "Matrimonio" },
+        "privato-dicembre-2026": { titolo: "Evento privato" },
       },
     },
     galleria: {
@@ -350,15 +344,9 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
       ctaTesto: "Got a date to propose?",
       ctaLabel: "Get in touch",
       tappe: {
-        "mfw-2026": { titolo: "MFW 2026 — Live Session", luogo: "Spazio Ventura, Milan" },
-        "jazzbox-nicola": {
-          titolo: "Jazzbox — Nicola R.",
-          luogo: "Atelier Corso Garibaldi, Milan",
-        },
-        "ep-controluce": {
-          titolo: "EP «Controluce»",
-          luogo: "Studio Meridiana, Navigli",
-        },
+        "mfw-2026": { titolo: "Milan Fashion Week 2026", luogo: "Officine Del Volo, Milan" },
+        "matrimonio-ottobre-2026": { titolo: "Wedding" },
+        "privato-dicembre-2026": { titolo: "Private event" },
       },
     },
     galleria: {

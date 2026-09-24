@@ -222,9 +222,12 @@ export type Tappa = {
   id: string;
   tipo: Tipologia;
   titolo: string;
-  luogo: string;
+  luogo?: string; // lascialo vuoto per un evento privato
   dataInizio: string; // "AAAA-MM-GG"
   dataFine?: string; // "AAAA-MM-GG" — lasciala vuota per un evento di un solo giorno/mese
+  /* Sito del locale o dell'evento (facoltativo). Se c'è, il nome
+     del luogo — la parte prima della virgola — diventa un link. */
+  link?: string;
 };
 
 /* Le etichette di stato ("In tour", "Chiuso in bottega" ecc.), in
@@ -236,26 +239,23 @@ export const AGENDA: Tappa[] = [
   {
     id: "mfw-2026",
     tipo: "tour",
-    titolo: "MFW 2026 — Live Session",
-    luogo: "Spazio Ventura, Milano",
-    dataInizio: "2026-09-01",
-    dataFine: "2026-09-30",
+    titolo: "Milano Fashion Week 2026",
+    luogo: "Officine Del Volo, Milano",
+    dataInizio: "2026-09-24",
+    link: "https://www.officinedelvolo.it/",
   },
+  /* Eventi privati: solo la tipologia, niente nomi né luogo. */
   {
-    id: "jazzbox-nicola",
-    tipo: "bottega",
-    titolo: "Jazzbox — Nicola R.",
-    luogo: "Atelier Corso Garibaldi, Milano",
+    id: "matrimonio-ottobre-2026",
+    tipo: "tour",
+    titolo: "Matrimonio",
     dataInizio: "2026-10-01",
-    dataFine: "2026-11-30",
   },
   {
-    id: "ep-controluce",
-    tipo: "studio",
-    titolo: "EP «Controluce»",
-    luogo: "Studio Meridiana, Navigli",
+    id: "privato-dicembre-2026",
+    tipo: "tour",
+    titolo: "Evento privato",
     dataInizio: "2026-12-01",
-    dataFine: "2026-12-31",
   },
 ];
 

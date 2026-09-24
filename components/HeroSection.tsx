@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
 import {
   AnimatePresence,
@@ -14,6 +14,7 @@ import { HERO_GALLERIA, SITE } from "@/lib/content";
 import { periodo, prossimaTappa } from "@/lib/agenda";
 import { DUR, EASE_OUT } from "@/lib/motion";
 import { useLingua } from "@/lib/useLingua";
+import LuogoTappa from "@/components/LuogoTappa";
 
 /* Quanto resta in scena ogni diapositiva prima di dissolversi
    nella successiva. Stesso tempo per foto e video: è la
@@ -70,7 +71,7 @@ function Angolo({
   valore,
   allineaDestra = false,
 }: {
-  valore: string;
+  valore: ReactNode;
   allineaDestra?: boolean;
 }) {
   return (
@@ -204,7 +205,10 @@ export default function HeroSection() {
           {/* ---------- BASSO: data · luogo ---------- */}
           <div className="flex items-end justify-between gap-6">
             <Angolo valore={periodo(prossimoEvento, lingua === "en" ? "en-US" : "it-IT")} />
-            <Angolo valore={testiEvento.luogo} allineaDestra />
+            <Angolo
+              valore={<LuogoTappa luogo={testiEvento.luogo} link={prossimoEvento.link} />}
+              allineaDestra
+            />
           </div>
         </motion.div>
       </motion.div>

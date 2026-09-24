@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { agendaOrdinata, dataEsatta, inCorso, prossimaTappa } from "@/lib/agenda";
 import { VIEWPORT, riseUp, stagger } from "@/lib/motion";
 import Folio from "@/components/Folio";
+import LuogoTappa from "@/components/LuogoTappa";
 import { useLingua } from "@/lib/useLingua";
 
 /* ============================================================
@@ -58,7 +59,13 @@ export default function StatusSchedule() {
           variants={riseUp}
           className="mt-4 max-w-[50ch] text-base text-inchiostro/70"
         >
-          {testiAttuale.titolo} · {testiAttuale.luogo}
+          {testiAttuale.titolo}
+          {testiAttuale.luogo && (
+            <>
+              {" · "}
+              <LuogoTappa luogo={testiAttuale.luogo} link={attuale.link} />
+            </>
+          )}
         </motion.p>
 
         {/* ---------- LISTA DELLE DATE ----------
@@ -102,9 +109,11 @@ export default function StatusSchedule() {
                   </p>
                 </div>
 
-                <p className="mt-5 text-sm text-inchiostro/60">
-                  {testiTappa.luogo}
-                </p>
+                {testiTappa.luogo && (
+                  <p className="mt-5 text-sm text-inchiostro/60">
+                    <LuogoTappa luogo={testiTappa.luogo} link={tappa.link} />
+                  </p>
+                )}
               </motion.div>
             );
           })}
