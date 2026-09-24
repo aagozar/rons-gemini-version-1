@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import PaginaMestiere from "@/components/PaginaMestiere";
-import { ANIME, SITE } from "@/lib/content";
+import PaginaMestiereEsteso from "@/components/PaginaMestiereEsteso";
+import { ANIME, LIUTERIA_MASONRY, SITE } from "@/lib/content";
 
 const liuteria = ANIME.find((a) => a.id === "liuteria")!;
 
@@ -11,10 +11,11 @@ export const metadata: Metadata = {
 
 export default function LiuteriaPage() {
   return (
-    <PaginaMestiere
+    <PaginaMestiereEsteso
       anima={liuteria}
       numero="28"
       altro={{ id: "musica", href: "/musica" }}
+      masonry={LIUTERIA_MASONRY}
     />
   );
 }

@@ -37,18 +37,22 @@ export type Anima = {
      Il pannello mostra un avviso invece di un'immagine rotta. */
   daFare?: boolean;
   cta: { label: string; href: string };
-  /* Foto che spezzano il racconto nella pagina dedicata (vedi
-     components/PaginaMestiere.tsx) — come le immagini a corredo di
-     un articolo di rivista, non la copertina. Le didascalie sono
-     in lib/dizionario.ts (stesso indice). Lascia [] se il mestiere
-     non ha ancora un racconto esteso. */
-  immaginiArticolo: string[];
   /* Foto per la slideshow della "pagina destra" nello spread in
      homepage (vedi TreAnime.tsx) — il lato immagine dell'articolo
      a doppia pagina. Lascia [] per restare sul singolo media/ratio
      qui sopra, come oggi fa Liuteria. */
   slideshowStoria: string[];
 };
+
+/* Una tessera della griglia masonry (vedi PaginaMestiereEsteso.tsx): foto
+   o video, con le dimensioni reali del file per evitare che
+   l'immagine venga deformata quando la colonna la ridimensiona.
+   Le dimensioni dei video non sono note (niente ffprobe a
+   disposizione): per quelli il componente usa un riquadro 16:9
+   fisso con object-cover, quindi non serve indicarle qui. */
+export type TesseraMasonry =
+  | { tipo: "immagine"; media: string; larghezza: number; altezza: number }
+  | { tipo: "video"; media: string; poster?: string };
 
 export const SITE = {
   nome: "RONS GEMINI",
@@ -107,7 +111,6 @@ export const ANIME: Anima[] = [
     didascalia: "Live, Milano — voce e chitarra",
     dettagli: [],
     cta: { label: "Guarda le date", href: "#agenda" },
-    immaginiArticolo: ["/img/live-palco.jpg", "/img/live-microfono.jpg"],
     slideshowStoria: [
       "/img/hero-live.jpg",
       "/img/rons2.jpg",
@@ -133,7 +136,6 @@ export const ANIME: Anima[] = [
        restano leggibili accanto al numero. */
     dettagli: ["Legni scelti a mano", "Manico su misura", "Finitura a tampone"],
     cta: { label: "Richiedi una chitarra", href: "#contatti" },
-    immaginiArticolo: ["/img/guitars1.jpg", "/img/guitars2.jpg"],
     slideshowStoria: [
       "/img/liuteria-chitarra.jpg",
       "/img/guitars1.jpg",
@@ -168,6 +170,33 @@ export const ANIME: Anima[] = [
     cta: { label: "Vedi le opere", href: "#contatti" },
   },
    -------------------------------------------------------- */
+
+/* ---------- GRIGLIE MASONRY DELLE PAGINE DEDICATE ----------
+   Foto (e per Musica anche video) raccolti per il mosaico delle
+   pagine /musica e /liuteria (vedi
+   components/PaginaMestiereEsteso.tsx) — un formato diverso dal
+   solito spread testo/foto usato altrove. PER AGGIUNGERE UN MEDIA:
+   nuova voce qui, con le dimensioni reali per le foto (evita
+   distorsioni quando la colonna ridimensiona). */
+export const MUSICA_MASONRY: TesseraMasonry[] = [
+  { tipo: "immagine", media: "/img/live-palco.jpg", larghezza: 739, altezza: 1450 },
+  { tipo: "video", media: "/video/live-loop.mp4", poster: "/img/live-poster.jpg" },
+  { tipo: "immagine", media: "/img/live-microfono.jpg", larghezza: 670, altezza: 1024 },
+  { tipo: "immagine", media: "/img/live5.jpeg", larghezza: 876, altezza: 1600 },
+  { tipo: "video", media: "/video/live2.mp4" },
+  { tipo: "immagine", media: "/img/live7.jpeg", larghezza: 1024, altezza: 768 },
+  { tipo: "immagine", media: "/img/hero-live.jpg", larghezza: 1565, altezza: 1267 },
+  { tipo: "immagine", media: "/img/live6.jpeg", larghezza: 739, altezza: 1600 },
+  { tipo: "video", media: "/video/live3.mp4" },
+  { tipo: "immagine", media: "/img/live8.jpeg", larghezza: 1066, altezza: 1600 },
+];
+
+export const LIUTERIA_MASONRY: TesseraMasonry[] = [
+  { tipo: "immagine", media: "/img/guitars1.jpg", larghezza: 1536, altezza: 2048 },
+  { tipo: "immagine", media: "/img/liuteria-chitarra.jpg", larghezza: 690, altezza: 862 },
+  { tipo: "immagine", media: "/img/tessuti-borsa.jpg", larghezza: 860, altezza: 860 },
+  { tipo: "immagine", media: "/img/guitars2.jpg", larghezza: 785, altezza: 1600 },
+];
 
 /* ---------- ALTRE FOTO LIVE GIÀ PRONTE ----------
    Le uso nella striscia sotto l'agenda. Aggiungine altre qui. */

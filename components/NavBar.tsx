@@ -37,7 +37,7 @@ export default function NavBar() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${
-        compatta ? "bg-carta text-inchiostro" : "blend-nav text-white"
+        compatta || menuAperto ? "bg-carta text-inchiostro" : "blend-nav text-white"
       }`}
     >
       <nav

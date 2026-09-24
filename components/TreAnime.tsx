@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ANIME, type Anima } from "@/lib/content";
 import { EASE_OUT, VIEWPORT, riseUp, stagger } from "@/lib/motion";
@@ -146,12 +147,13 @@ function ArticoloDoppiaPagina({
       </div>
 
       <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
-        <a
-          href={anima.cta.href}
-          className="inline-block border-b hairline pb-1 text-xs font-medium uppercase tracking-[0.2em] text-inchiostro transition-colors duration-200 hover:border-inchiostro"
+        {/* Link alla pagina dedicata a questo mestiere */}
+        <Link
+          href={`/${anima.id}`}
+          className="inline-block border-b hairline pb-1 text-xs font-medium uppercase tracking-[0.2em] text-inchiostro/60 transition-colors duration-200 hover:border-inchiostro hover:text-inchiostro"
         >
-          {testi.ctaLabel}
-        </a>
+          {testi.paginaLabel} →
+        </Link>
 
         {/* Il ponte verso l'altro mestiere, dentro il racconto stesso */}
         {testi.collegamentoAltro && (
@@ -162,6 +164,13 @@ function ArticoloDoppiaPagina({
             {testi.collegamentoAltro}
           </a>
         )}
+
+        <a
+          href={anima.cta.href}
+          className="inline-block border-b hairline pb-1 text-xs font-medium uppercase tracking-[0.2em] text-inchiostro transition-colors duration-200 hover:border-inchiostro"
+        >
+          {testi.ctaLabel}
+        </a>
       </div>
     </motion.div>
   );

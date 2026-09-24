@@ -162,10 +162,28 @@ export default function Contatti() {
               name="motivo"
               className={`${campo} mt-2 scheme-dark pr-6`}
             >
-              <option value="booking">{c.motivoOpzioni.booking}</option>
-              <option value="chitarra">{c.motivoOpzioni.chitarra}</option>
-              <option value="quadro">{c.motivoOpzioni.quadro}</option>
-              <option value="altro">{c.motivoOpzioni.altro}</option>
+              {/* Il menu a tendina di <select> è un popup nativo del
+                  sistema operativo: su Windows, Chrome ed Edge lo
+                  disegnano fuori dal motore di rendering della pagina
+                  e ignorano "color-scheme: dark" (a differenza di
+                  macOS). Risultato: testo bianco ereditato dal
+                  form su un popup che resta chiaro — invisibile.
+                  Qui fissiamo colori espliciti sulle singole
+                  <option>, l'unica proprietà che i browser rispettano
+                  sempre su questo elemento, indipendentemente dal
+                  tema del sistema operativo. */}
+              <option value="booking" className="bg-carta text-inchiostro">
+                {c.motivoOpzioni.booking}
+              </option>
+              <option value="chitarra" className="bg-carta text-inchiostro">
+                {c.motivoOpzioni.chitarra}
+              </option>
+              <option value="quadro" className="bg-carta text-inchiostro">
+                {c.motivoOpzioni.quadro}
+              </option>
+              <option value="altro" className="bg-carta text-inchiostro">
+                {c.motivoOpzioni.altro}
+              </option>
             </select>
           </div>
 
