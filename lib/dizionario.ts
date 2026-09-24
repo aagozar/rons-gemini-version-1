@@ -11,11 +11,11 @@
    TypeScript segnala un errore se una chiave manca in una delle
    due lingue: non puoi dimenticare la traduzione.
 
-   COME COLLEGARE UNA TAPPA AGENDA O UNA FOTO ALLA TRADUZIONE:
-   lib/content.ts assegna un "id" stabile a ogni tappa e foto.
-   Qui sotto, in agenda.tappe e galleria.foto, usa lo stesso id
-   come chiave. Se aggiungi una tappa/foto in content.ts, aggiungi
-   la voce corrispondente in ENTRAMBE le lingue qui.
+   COME COLLEGARE UNA TAPPA AGENDA ALLA TRADUZIONE:
+   lib/content.ts assegna un "id" stabile a ogni tappa. Qui sotto,
+   in agenda.tappe, usa lo stesso id come chiave. Se aggiungi una
+   tappa in content.ts, aggiungi la voce corrispondente in ENTRAMBE
+   le lingue qui.
    ============================================================ */
 
 export type Lingua = "it" | "en";
@@ -63,11 +63,6 @@ type TestiTappa = {
   luogo: string;
 };
 
-type TestiFoto = {
-  alt: string;
-  didascalia: string;
-};
-
 export type Dizionario = {
   nav: {
     musica: string;
@@ -102,7 +97,7 @@ export type Dizionario = {
   };
   galleria: {
     aria: string;
-    foto: Record<string, TestiFoto>;
+    kicker: string;
   };
   contatti: {
     kicker: string;
@@ -233,11 +228,8 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
       },
     },
     galleria: {
-      aria: "Immagini dal vivo",
-      foto: {
-        microfono: { alt: "Rons Gemini al microfono", didascalia: "Al microfono" },
-        palco: { alt: "Rons Gemini sul palco", didascalia: "Sul palco" },
-      },
+      aria: "Foto e video di Musica e Liuteria",
+      kicker: "Bottega e palco, insieme",
     },
     contatti: {
       kicker: "Contatti",
@@ -370,11 +362,8 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
       },
     },
     galleria: {
-      aria: "Live photos",
-      foto: {
-        microfono: { alt: "Rons Gemini at the microphone", didascalia: "At the mic" },
-        palco: { alt: "Rons Gemini on stage", didascalia: "On stage" },
-      },
+      aria: "Photos and videos of Music and Lutherie",
+      kicker: "The workshop and the stage, together",
     },
     contatti: {
       kicker: "Contact",

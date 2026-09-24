@@ -198,22 +198,11 @@ export const LIUTERIA_MASONRY: TesseraMasonry[] = [
   { tipo: "immagine", media: "/img/guitars2.jpg", larghezza: 785, altezza: 1600 },
 ];
 
-/* ---------- ALTRE FOTO LIVE GIÀ PRONTE ----------
-   Le uso nella striscia sotto l'agenda. Aggiungine altre qui. */
-export const GALLERIA = [
-  {
-    id: "microfono",
-    src: "/img/live-microfono.jpg",
-    alt: "Rons Gemini al microfono",
-    didascalia: "Al microfono",
-  },
-  {
-    id: "palco",
-    src: "/img/live-palco.jpg",
-    alt: "Rons Gemini sul palco",
-    didascalia: "Sul palco",
-  },
-];
+/* La striscia sotto l'agenda in homepage (components/Galleria.tsx)
+   usa lo stesso mosaico delle pagine dedicate, ma con tutti i
+   media di entrambi i mestieri insieme — l'unico posto del sito
+   dove Musica e Liuteria si vedono fianco a fianco. */
+export const GALLERIA_COMPLETA: TesseraMasonry[] = [...MUSICA_MASONRY, ...LIUTERIA_MASONRY];
 
 /* ---------- STATO E AGENDA ----------
    Ogni tappa ha una data di inizio e (se dura più di un giorno)

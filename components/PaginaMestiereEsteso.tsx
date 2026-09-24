@@ -7,6 +7,7 @@ import type { Anima, TesseraMasonry } from "@/lib/content";
 import { DUR, EASE_OUT, VIEWPORT, riseUp, stagger } from "@/lib/motion";
 import NavBar from "@/components/NavBar";
 import Folio from "@/components/Folio";
+import GrigliaMasonry from "@/components/GrigliaMasonry";
 import { useLingua } from "@/lib/useLingua";
 
 /* Un blocco del corpo del racconto: paragrafo o citazione in
@@ -19,40 +20,6 @@ function costruisciBlocchi(paragrafi: string[], pullQuote?: string): Blocco[] {
     blocchi.splice(Math.ceil(blocchi.length / 2), 0, { tipo: "citazione", contenuto: pullQuote });
   }
   return blocchi;
-}
-
-/* Una tessera della griglia a mosaico: foto con le sue proporzioni
-   reali (niente deformazioni quando la colonna la ridimensiona) o
-   video in un riquadro 16:9, di cui non conosciamo le proporzioni
-   native. object-cover evita comunque distorsioni in entrambi i
-   casi. */
-function TesseraGalleria({ tessera, alt }: { tessera: TesseraMasonry; alt: string }) {
-  return (
-    <div className="mb-4 break-inside-avoid lg:mb-6">
-      {tessera.tipo === "video" ? (
-        <div className="relative aspect-video w-full overflow-hidden bg-inchiostro/10">
-          <video
-            controls
-            playsInline
-            preload="metadata"
-            poster={tessera.poster}
-            className="absolute inset-0 h-full w-full object-cover grayscale"
-          >
-            <source src={tessera.media} type="video/mp4" />
-          </video>
-        </div>
-      ) : (
-        <Image
-          src={tessera.media}
-          alt={alt}
-          width={tessera.larghezza}
-          height={tessera.altezza}
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          className="h-auto w-full object-cover grayscale"
-        />
-      )}
-    </div>
-  );
 }
 
 /* ============================================================
@@ -181,10 +148,8 @@ export default function PaginaMestiereEsteso({
           <Folio numero={numeroGalleria} />
           <p className="kicker text-inchiostro/50">{testi.didascalia}</p>
 
-          <div className="mx-auto mt-8 max-w-6xl columns-2 gap-4 sm:columns-3 lg:gap-6 2xl:max-w-7xl">
-            {masonry.map((tessera, i) => (
-              <TesseraGalleria key={i} tessera={tessera} alt={testi.didascalia} />
-            ))}
+          <div className="mx-auto mt-8 max-w-6xl 2xl:max-w-7xl">
+            <GrigliaMasonry tessere={masonry} alt={testi.didascalia} />
           </div>
         </motion.section>
 
