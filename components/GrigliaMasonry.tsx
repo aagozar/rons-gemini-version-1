@@ -1,12 +1,17 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import type { TesseraMasonry } from "@/lib/content";
+import Lightbox from "@/components/Lightbox";
 
 /* ============================================================
    GRIGLIA A MOSAICO — condivisa tra le pagine dedicate
    (PaginaMestiereEsteso.tsx) e la striscia "tutti i media" in
    homepage (Galleria.tsx). Colonne CSS invece di una griglia a
    righe fisse: si adattano da sole all'altezza reale di ogni
-   foto/video, senza bisogno di calcolarla a mano.
+   foto/video, senza bisogno di calcolarla a mano. Le foto (non i
+   video) si aprono a schermo intero al clic, vedi Lightbox.tsx.
    ============================================================ */
 export default function GrigliaMasonry({
   tessere,
@@ -17,12 +22,31 @@ export default function GrigliaMasonry({
   alt: string;
   classNameContenitore?: string;
 }) {
+  const [aperta, setAperta] = useState<Extract<TesseraMasonry, { tipo: "immagine" }> | null>(
+    null
+  );
+
   return (
-    <div className={classNameContenitore}>
-      {tessere.map((tessera, i) => (
-        <TesseraGalleria key={i} tessera={tessera} alt={alt} />
-      ))}
-    </div>
+    <>
+      <div className={classNameContenitore}>
+        {tessere.map((tessera, i) => (
+          <TesseraGalleria
+            key={i}
+            tessera={tessera}
+            alt={alt}
+            onApri={() => tessera.tipo === "immagine" && setAperta(tessera)}
+          />
+        ))}
+      </div>
+
+      <Lightbox
+        src={aperta?.media}
+        alt={alt}
+        width={aperta?.larghezza ?? 0}
+        height={aperta?.altezza ?? 0}
+        onClose={() => setAperta(null)}
+      />
+    </>
   );
 }
 
@@ -32,7 +56,15 @@ export default function GrigliaMasonry({
    native. object-cover evita comunque distorsioni in entrambi i
    casi. In bianco e nero come il resto del sito, ma al passaggio
    del mouse torna a colori — un piccolo premio per chi esplora. */
-function TesseraGalleria({ tessera, alt }: { tessera: TesseraMasonry; alt: string }) {
+function TesseraGalleria({
+  tessera,
+  alt,
+  onApri,
+}: {
+  tessera: TesseraMasonry;
+  alt: string;
+  onApri: () => void;
+}) {
   const coloreAlHover = "grayscale transition-[filter] duration-700 ease-out group-hover:grayscale-0";
 
   return (
@@ -52,14 +84,21 @@ function TesseraGalleria({ tessera, alt }: { tessera: TesseraMasonry; alt: strin
           </video>
         </div>
       ) : (
-        <Image
-          src={tessera.media}
-          alt={alt}
-          width={tessera.larghezza}
-          height={tessera.altezza}
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          className={`h-auto w-full object-cover ${coloreAlHover}`}
-        />
+        <button
+          type="button"
+          onClick={onApri}
+          aria-label={alt}
+          className="block w-full cursor-zoom-in"
+        >
+          <Image
+            src={tessera.media}
+            alt={alt}
+            width={tessera.larghezza}
+            height={tessera.altezza}
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className={`h-auto w-full object-cover ${coloreAlHover}`}
+          />
+        </button>
       )}
     </div>
   );

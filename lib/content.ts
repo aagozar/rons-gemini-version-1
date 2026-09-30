@@ -223,8 +223,13 @@ export type Tappa = {
   tipo: Tipologia;
   titolo: string;
   luogo?: string; // lascialo vuoto per un evento privato
-  dataInizio: string; // "AAAA-MM-GG"
+  dataInizio: string; // "AAAA-MM-GG" — se dataDaDefinire è true, usa una data lontana (es. "9999-12-31") solo per farla ordinare per ultima: non viene mai mostrata.
   dataFine?: string; // "AAAA-MM-GG" — lasciala vuota per un evento di un solo giorno/mese
+  /* true = la data vera non si conosce ancora. In agenda compare
+     "Data da definire" (dizionario → agenda.dataDaDefinire) al posto
+     della data. dataInizio resta obbligatoria comunque: mettine una
+     lontana nel futuro, serve solo a farla comparire per ultima. */
+  dataDaDefinire?: boolean;
   /* Sito del locale o dell'evento (facoltativo). Se c'è, il nome
      del luogo — la parte prima della virgola — diventa un link. */
   link?: string;
@@ -242,14 +247,14 @@ export type Tappa = {
 
 export const AGENDA: Tappa[] = [
   {
-    id: "mfw-2026",
+    id: "mabuhay-2026-10",
     tipo: "tour",
-    titolo: "Milano Fashion Week 2026",
-    luogo: "Officine Del Volo, Milano",
-    dataInizio: "2026-09-25",
-    dataFine: "2026-09-26",
-    link: "https://www.officinedelvolo.it/",
-    locandina: "/img/locandina-mfw-2026.jpg",
+    titolo: "Rons Gemini Live",
+    luogo: "Mabuhay, Milano",
+    dataInizio: "2026-10-03",
+    dataFine: "2026-10-04",
+    link: "https://www.instagram.com/mabuhay.restaurant/",
+    locandina: "/img/rons_mabuhay_2026_10.jpeg",
   },
   /* Eventi privati: solo la tipologia e la città, niente nomi. */
   {
@@ -257,7 +262,8 @@ export const AGENDA: Tappa[] = [
     tipo: "tour",
     titolo: "Matrimonio",
     luogo: "Location privata, Milano",
-    dataInizio: "2026-10-01",
+    dataInizio: "9999-12-31",
+    dataDaDefinire: true,
   },
   {
     id: "privato-dicembre-2026",

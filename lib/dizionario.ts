@@ -96,6 +96,9 @@ export type Dizionario = {
     kicker: string;
     ctaTesto: string;
     ctaLabel: string;
+    /* Mostrata al posto della data esatta per le tappe con
+       dataDaDefinire (lib/content.ts). */
+    dataDaDefinire: string;
     tappe: Record<string, TestiTappa>;
   };
   galleria: {
@@ -218,12 +221,13 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
       kicker: "In questo momento",
       ctaTesto: "Una nuova tappa da proporre?",
       ctaLabel: "Contattami",
+      dataDaDefinire: "Data da definire",
       tappe: {
-        "mfw-2026": {
-          titolo: "Milano Fashion Week 2026",
-          luogo: "Officine Del Volo, Milano",
+        "mabuhay-2026-10": {
+          titolo: "Rons Gemini Live",
+          luogo: "Mabuhay, Milano",
           descrizione:
-            "Due giorni di sfilate, un pop-up store e una mostra d'arte alle Officine Del Volo, nel cuore della Milano Fashion Week. Rons Gemini sale sul palco per il momento live dell'evento: voce e chitarra, lo stesso suono acustico e intimo che porta nei locali più piccoli, qui davanti a un pubblico internazionale di addetti ai lavori e appassionati di moda.",
+            "Due giorni di musica dal vivo al ristorante Mabuhay: Rons Gemini suona sabato e domenica, tra pranzo e cena, voce e chitarra ad accompagnare la cucina filippina in un'atmosfera intima.",
         },
         "matrimonio-ottobre-2026": { titolo: "Matrimonio", luogo: "Location privata, Milano" },
         "privato-dicembre-2026": { titolo: "Evento privato", luogo: "Location privata, Milano" },
@@ -351,12 +355,13 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
       kicker: "Right now",
       ctaTesto: "Got a date to propose?",
       ctaLabel: "Get in touch",
+      dataDaDefinire: "Date to be announced",
       tappe: {
-        "mfw-2026": {
-          titolo: "Milan Fashion Week 2026",
-          luogo: "Officine Del Volo, Milan",
+        "mabuhay-2026-10": {
+          titolo: "Rons Gemini Live",
+          luogo: "Mabuhay, Milan",
           descrizione:
-            "Two days of runway shows, a pop-up store and an art exhibition at Officine Del Volo, at the heart of Milan Fashion Week. Rons Gemini takes the stage for the event's live moment: voice and guitar, the same intimate acoustic sound he brings to smaller venues, here in front of an international crowd of industry insiders and fashion lovers.",
+            "Two days of live music at Mabuhay restaurant: Rons Gemini performs Saturday and Sunday, across lunch and dinner, voice and guitar alongside Filipino cuisine in an intimate setting.",
         },
         "matrimonio-ottobre-2026": { titolo: "Wedding", luogo: "Private location, Milan" },
         "privato-dicembre-2026": { titolo: "Private event", luogo: "Private location, Milan" },
