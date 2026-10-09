@@ -157,7 +157,13 @@ export default function StatusSchedule() {
             descrizione). Senza locandina resta la riga compatta:
             stato in alto, poi nome dell'evento e data esatta fratelli
             nello stesso flex — così restano alla stessa altezza — la
-            data in grassetto a destra. Il luogo chiude la riga. */}
+            data in grassetto a destra. Il luogo chiude la riga.
+            SU MOBILE la lista diventa compatta, come l'elenco video di
+            YouTube: una riga per tappa, miniatura piccola a sinistra e
+            testo allineato a sinistra accanto; la descrizione si
+            nasconde. Le tappe senza locandina hanno al posto della
+            miniatura un riquadro con giorno e mese, così i testi
+            restano tutti in colonna. */}
         {dateFuture.length > 0 && (
           <motion.h2
             variants={riseUp}
@@ -176,38 +182,38 @@ export default function StatusSchedule() {
                 <motion.div
                   key={`${tappa.id}-${i}`}
                   variants={riseUp}
-                  className="grid items-center gap-6 border-b py-8 hairline first:pt-0 last:border-0 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-8 lg:grid-cols-[8rem_minmax(0,1fr)] lg:gap-10"
+                  className="grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-4 border-b py-4 hairline first:pt-0 last:border-0 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-8 sm:py-8 lg:grid-cols-[8rem_minmax(0,1fr)] lg:gap-10"
                 >
                   <button
                     type="button"
                     onClick={() => setLocandinaAperta({ src: tappa.locandina!, alt: testiTappa.titolo })}
                     aria-label={testiTappa.titolo}
-                    className="mx-auto block w-full max-w-36 cursor-zoom-in sm:mx-0 sm:max-w-none"
+                    className="block w-full cursor-zoom-in"
                   >
                     <Image
                       src={tappa.locandina}
                       alt={testiTappa.titolo}
                       width={1131}
                       height={1600}
-                      sizes="(max-width: 640px) 144px, (max-width: 1024px) 112px, 128px"
-                      className="h-auto w-full shadow-[0_12px_28px_-14px_rgba(17,17,17,0.45)]"
+                      sizes="(max-width: 640px) 72px, (max-width: 1024px) 112px, 128px"
+                      className="h-auto w-full shadow-[0_8px_20px_-10px_rgba(17,17,17,0.45)] sm:shadow-[0_12px_28px_-14px_rgba(17,17,17,0.45)]"
                     />
                   </button>
 
-                  <div className="text-center sm:text-left">
-                    <h3 className="display-section text-[clamp(1.5rem,4vw,2.5rem)]">
+                  <div className="min-w-0 text-left">
+                    <h3 className="display-section text-xl sm:text-[clamp(1.5rem,4vw,2.5rem)]">
                       {testiTappa.titolo}
                     </h3>
-                    <p className="mt-3 text-base font-bold text-inchiostro/70 sm:text-lg">
+                    <p className="mt-1 text-sm font-bold text-inchiostro/70 sm:mt-3 sm:text-lg">
                       {tappa.dataDaDefinire ? t.agenda.dataDaDefinire : dataEsatta(tappa, locale)}
                     </p>
                     {testiTappa.luogo && (
-                      <p className="mt-2 text-sm text-inchiostro/60">
+                      <p className="mt-0.5 truncate text-xs text-inchiostro/60 sm:mt-2 sm:text-sm">
                         <LuogoTappa luogo={testiTappa.luogo} link={tappa.link} />
                       </p>
                     )}
                     {testiTappa.descrizione && (
-                      <p className="mx-auto mt-6 max-w-[52ch] text-base leading-relaxed text-inchiostro/70 sm:mx-0">
+                      <p className="mt-6 hidden max-w-[52ch] text-base leading-relaxed text-inchiostro/70 sm:block">
                         {testiTappa.descrizione}
                       </p>
                     )}
@@ -220,39 +226,62 @@ export default function StatusSchedule() {
               <motion.div
                 key={`${tappa.id}-${i}`}
                 variants={riseUp}
-                className="border-b py-8 text-center hairline first:pt-0 last:border-0 sm:text-left"
+                className="grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-4 border-b py-4 hairline first:pt-0 last:border-0 sm:block sm:py-8"
               >
-                <p
-                  className={`kicker ${
-                    corrente ? "text-inchiostro/60" : "text-inchiostro/40"
-                  }`}
+                {/* Solo su mobile: riquadro al posto della miniatura. */}
+                <div
+                  aria-hidden
+                  className="flex aspect-[1131/1600] w-full flex-col items-center justify-center border hairline text-inchiostro/60 sm:hidden"
                 >
-                  {t.stati[tappa.tipo]}
-                </p>
-
-                <div className="mt-3 flex flex-col items-center gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
-                  <p
-                    className={`display-section text-[clamp(1.5rem,4vw,2.5rem)] ${
-                      corrente ? "text-inchiostro" : "text-inchiostro/70"
-                    }`}
-                  >
-                    {testiTappa.titolo}
-                  </p>
-
-                  <p
-                    className={`shrink-0 font-bold text-base sm:text-right sm:text-lg ${
-                      corrente ? "text-inchiostro" : "text-inchiostro/60"
-                    }`}
-                  >
-                    {tappa.dataDaDefinire ? t.agenda.dataDaDefinire : dataEsatta(tappa, locale)}
-                  </p>
+                  {tappa.dataDaDefinire ? (
+                    <span className="text-xs font-bold">—</span>
+                  ) : (
+                    <>
+                      <span className="text-xl font-bold leading-none">
+                        {new Date(`${tappa.dataInizio}T00:00:00`).getDate()}
+                      </span>
+                      <span className="mt-1 text-[0.65rem] uppercase tracking-[0.1em]">
+                        {new Date(`${tappa.dataInizio}T00:00:00`).toLocaleDateString(locale, {
+                          month: "short",
+                        })}
+                      </span>
+                    </>
+                  )}
                 </div>
 
-                {testiTappa.luogo && (
-                  <p className="mt-5 text-sm text-inchiostro/60">
-                    <LuogoTappa luogo={testiTappa.luogo} link={tappa.link} />
+                <div className="min-w-0 text-left">
+                  <p
+                    className={`kicker hidden sm:block ${
+                      corrente ? "text-inchiostro/60" : "text-inchiostro/40"
+                    }`}
+                  >
+                    {t.stati[tappa.tipo]}
                   </p>
-                )}
+
+                  <div className="flex flex-col gap-1 sm:mt-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+                    <p
+                      className={`display-section text-xl sm:text-[clamp(1.5rem,4vw,2.5rem)] ${
+                        corrente ? "text-inchiostro" : "text-inchiostro/70"
+                      }`}
+                    >
+                      {testiTappa.titolo}
+                    </p>
+
+                    <p
+                      className={`shrink-0 font-bold text-sm sm:text-right sm:text-lg ${
+                        corrente ? "text-inchiostro" : "text-inchiostro/60"
+                      }`}
+                    >
+                      {tappa.dataDaDefinire ? t.agenda.dataDaDefinire : dataEsatta(tappa, locale)}
+                    </p>
+                  </div>
+
+                  {testiTappa.luogo && (
+                    <p className="mt-0.5 truncate text-xs text-inchiostro/60 sm:mt-5 sm:text-sm">
+                      <LuogoTappa luogo={testiTappa.luogo} link={tappa.link} />
+                    </p>
+                  )}
+                </div>
               </motion.div>
             );
           })}
