@@ -94,6 +94,13 @@ export type Dizionario = {
   };
   agenda: {
     kicker: string;
+    /* Titoli delle due parti della sezione: l'evento in evidenza
+       e la lista delle date successive. */
+    prossimoEvento: string;
+    dateFuture: string;
+    /* Mostrata sotto "Prossimo evento" quando tutte le date in
+       agenda sono già passate. */
+    nessunaData: string;
     ctaTesto: string;
     ctaLabel: string;
     /* Mostrata al posto della data esatta per le tappe con
@@ -219,6 +226,9 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
     },
     agenda: {
       kicker: "In questo momento",
+      prossimoEvento: "Prossimo evento",
+      dateFuture: "Date future",
+      nessunaData: "Nuove date in arrivo.",
       ctaTesto: "Una nuova tappa da proporre?",
       ctaLabel: "Contattami",
       dataDaDefinire: "Data da definire",
@@ -229,6 +239,19 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
           descrizione:
             "Due giorni di musica dal vivo al ristorante Mabuhay: Rons Gemini suona sabato e domenica, tra pranzo e cena, voce e chitarra ad accompagnare la cucina filippina in un'atmosfera intima.",
         },
+        "mabuhay-2026-10-16": { titolo: "Rons Gemini Live", luogo: "Mabuhay, Milano" },
+        "mabuhay-2026-10-23": { titolo: "Rons Gemini Live", luogo: "Mabuhay, Milano" },
+        "mabuhay-2026-10-30": { titolo: "Rons Gemini Live", luogo: "Mabuhay, Milano" },
+        "privato-2026-10-10": { titolo: "Evento privato", luogo: "Location privata" },
+        "privato-2026-10-24": { titolo: "Evento privato", luogo: "Location privata" },
+        "mabuhay-2026-11-06": { titolo: "Rons Gemini Live", luogo: "Mabuhay, Milano" },
+        "mabuhay-2026-11-13": { titolo: "Rons Gemini Live", luogo: "Mabuhay, Milano" },
+        "mabuhay-2026-11-20": { titolo: "Rons Gemini Live", luogo: "Mabuhay, Milano" },
+        "mabuhay-2026-11-27": { titolo: "Rons Gemini Live", luogo: "Mabuhay, Milano" },
+        "sessionist-2026-12": { titolo: "The Sessionist", luogo: "Svizzera" },
+        "christmas-affair-2026-12": { titolo: "The Christmas Affair", luogo: "Svizzera" },
+        "debut-2026-11-08": { titolo: "Debut", luogo: "Location privata" },
+        "debut-2026-11-28": { titolo: "Debut", luogo: "Location privata" },
         "matrimonio-ottobre-2026": { titolo: "Matrimonio", luogo: "Location privata, Milano" },
         "privato-dicembre-2026": { titolo: "Evento privato", luogo: "Location privata, Milano" },
       },
@@ -353,6 +376,9 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
     },
     agenda: {
       kicker: "Right now",
+      prossimoEvento: "Next event",
+      dateFuture: "Future dates",
+      nessunaData: "New dates coming soon.",
       ctaTesto: "Got a date to propose?",
       ctaLabel: "Get in touch",
       dataDaDefinire: "Date to be announced",
@@ -363,6 +389,19 @@ export const DIZIONARIO: Record<Lingua, Dizionario> = {
           descrizione:
             "Two days of live music at Mabuhay restaurant: Rons Gemini performs Saturday and Sunday, across lunch and dinner, voice and guitar alongside Filipino cuisine in an intimate setting.",
         },
+        "mabuhay-2026-10-16": { titolo: "Rons Gemini Live", luogo: "Mabuhay, Milan" },
+        "mabuhay-2026-10-23": { titolo: "Rons Gemini Live", luogo: "Mabuhay, Milan" },
+        "mabuhay-2026-10-30": { titolo: "Rons Gemini Live", luogo: "Mabuhay, Milan" },
+        "privato-2026-10-10": { titolo: "Private event", luogo: "Private location" },
+        "privato-2026-10-24": { titolo: "Private event", luogo: "Private location" },
+        "mabuhay-2026-11-06": { titolo: "Rons Gemini Live", luogo: "Mabuhay, Milan" },
+        "mabuhay-2026-11-13": { titolo: "Rons Gemini Live", luogo: "Mabuhay, Milan" },
+        "mabuhay-2026-11-20": { titolo: "Rons Gemini Live", luogo: "Mabuhay, Milan" },
+        "mabuhay-2026-11-27": { titolo: "Rons Gemini Live", luogo: "Mabuhay, Milan" },
+        "sessionist-2026-12": { titolo: "The Sessionist", luogo: "Switzerland" },
+        "christmas-affair-2026-12": { titolo: "The Christmas Affair", luogo: "Switzerland" },
+        "debut-2026-11-08": { titolo: "Debut", luogo: "Private location" },
+        "debut-2026-11-28": { titolo: "Debut", luogo: "Private location" },
         "matrimonio-ottobre-2026": { titolo: "Wedding", luogo: "Private location, Milan" },
         "privato-dicembre-2026": { titolo: "Private event", luogo: "Private location, Milan" },
       },

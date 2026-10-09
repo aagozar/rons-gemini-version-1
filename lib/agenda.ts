@@ -21,27 +21,25 @@ export function inCorso(t: Tappa, oggi: Date = new Date()): boolean {
   return oggi >= inizio(t) && oggi <= fine(t);
 }
 
-/* La tappa in corso adesso, se ce n'è una. */
-export function tappaInCorso(oggi: Date = new Date()): Tappa | undefined {
-  return AGENDA.find((t) => inCorso(t, oggi));
-}
-
 /* L'agenda in ordine cronologico: si può scrivere AGENDA in
    lib/content.ts in qualunque ordine, qui si sistema da sé. */
 export function agendaOrdinata(): Tappa[] {
   return [...AGENDA].sort((a, b) => inizio(a).getTime() - inizio(b).getTime());
 }
 
-/* La tappa da mostrare come "prossimo evento": quella in corso,
-   altrimenti la prima non ancora iniziata, altrimenti — se sono
-   tutte passate — l'ultima in agenda. */
-export function prossimaTappa(oggi: Date = new Date()): Tappa {
-  const corso = tappaInCorso(oggi);
-  if (corso) return corso;
+/* Solo le tappe non ancora finite (in corso o future), in ordine
+   cronologico: quelle passate spariscono da sole dal sito, il
+   giorno dopo la loro data di fine. Le tappe "data da definire"
+   restano sempre, in fondo alla lista. */
+export function tappeFuture(oggi: Date = new Date()): Tappa[] {
+  return agendaOrdinata().filter((t) => fine(t) >= oggi);
+}
 
-  const ordinata = agendaOrdinata();
-  const futura = ordinata.find((t) => inizio(t) > oggi);
-  return futura ?? ordinata[ordinata.length - 1] ?? AGENDA[0];
+/* La tappa da mostrare come "prossimo evento": la prima non ancora
+   finita (quindi quella in corso, se ce n'è una). Undefined se
+   sono tutte passate. */
+export function prossimaTappa(oggi: Date = new Date()): Tappa | undefined {
+  return tappeFuture(oggi)[0];
 }
 
 /* "Settembre 2026" per una tappa di un mese, "Ottobre — Novembre

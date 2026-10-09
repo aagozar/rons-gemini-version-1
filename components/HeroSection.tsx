@@ -12,6 +12,7 @@ import {
 } from "framer-motion";
 import { HERO_GALLERIA, SITE } from "@/lib/content";
 import { periodo, prossimaTappa } from "@/lib/agenda";
+import { useOggi } from "@/lib/useOggi";
 import { DUR, EASE_OUT } from "@/lib/motion";
 import { useLingua } from "@/lib/useLingua";
 import LuogoTappa from "@/components/LuogoTappa";
@@ -104,8 +105,10 @@ export default function HeroSection() {
   const opacitaTesto = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   const { lingua, t } = useLingua();
-  const prossimoEvento = prossimaTappa();
-  const testiEvento = t.agenda.tappe[prossimoEvento.id];
+  /* Calcolato sulla data del browser (useOggi), non su quella del
+     build. Se le date sono tutte passate gli angoli restano vuoti. */
+  const prossimoEvento = prossimaTappa(useOggi());
+  const testiEvento = prossimoEvento && t.agenda.tappe[prossimoEvento.id];
 
   /* Avanza da una diapositiva alla successiva ogni DURATA_SLIDE ms.
      Con "riduci movimento" attivo la galleria resta ferma sulla
@@ -198,15 +201,22 @@ export default function HeroSection() {
         <motion.div variants={sequenza} initial="hidden" animate="show" className="contents">
           {/* ---------- ALTO: evento · "proudly presents" ---------- */}
           <div className="flex items-start justify-between gap-6">
-            <Angolo valore={testiEvento.titolo} />
+            <Angolo valore={testiEvento?.titolo} />
             <Angolo valore={t.hero.presenta} allineaDestra />
           </div>
 
           {/* ---------- BASSO: data · luogo ---------- */}
           <div className="flex items-end justify-between gap-6">
-            <Angolo valore={periodo(prossimoEvento, lingua === "en" ? "en-US" : "it-IT")} />
             <Angolo
-              valore={<LuogoTappa luogo={testiEvento.luogo} link={prossimoEvento.link} />}
+              valore={
+                prossimoEvento &&
+                (prossimoEvento.dataDaDefinire
+                  ? t.agenda.dataDaDefinire
+                  : periodo(prossimoEvento, lingua === "en" ? "en-US" : "it-IT"))
+              }
+            />
+            <Angolo
+              valore={<LuogoTappa luogo={testiEvento?.luogo} link={prossimoEvento?.link} />}
               allineaDestra
             />
           </div>
