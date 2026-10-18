@@ -138,6 +138,7 @@ export const ANIME: Anima[] = [
     cta: { label: "Richiedi una chitarra", href: "#contatti" },
     slideshowStoria: [
       "/img/liuteria-chitarra.jpg",
+      "/img/mini-guitars1.jpeg",
       "/img/guitars1.jpg",
       "/img/guitars2.jpg",
       "/img/tessuti-borsa.jpg",
@@ -192,6 +193,7 @@ export const MUSICA_MASONRY: TesseraMasonry[] = [
 ];
 
 export const LIUTERIA_MASONRY: TesseraMasonry[] = [
+  { tipo: "immagine", media: "/img/mini-guitars1.jpeg", larghezza: 1536, altezza: 2048 },
   { tipo: "immagine", media: "/img/guitars1.jpg", larghezza: 1536, altezza: 2048 },
   { tipo: "immagine", media: "/img/liuteria-chitarra.jpg", larghezza: 690, altezza: 862 },
   { tipo: "immagine", media: "/img/tessuti-borsa.jpg", larghezza: 860, altezza: 860 },

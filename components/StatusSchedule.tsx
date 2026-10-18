@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { dataEsatta, inCorso, tappeFuture } from "@/lib/agenda";
-import { VIEWPORT, riseUp, stagger } from "@/lib/motion";
+import { riseUp, stagger } from "@/lib/motion";
 import Folio from "@/components/Folio";
 import Lightbox from "@/components/Lightbox";
 import LuogoTappa from "@/components/LuogoTappa";
@@ -53,7 +53,11 @@ export default function StatusSchedule() {
         variants={stagger()}
         initial="hidden"
         whileInView="show"
-        viewport={VIEWPORT}
+        /* amount basso di proposito: questo blocco contiene tutta
+           l'agenda ed è alto migliaia di px. Con VIEWPORT (30%) su
+           una finestra più bassa del 30% del blocco la soglia non
+           si raggiunge mai e le righe restano invisibili. */
+        viewport={{ once: true, amount: 0.05 }}
         className="mx-auto max-w-4xl 2xl:max-w-5xl"
       >
         {/* ---------- PROSSIMO EVENTO ----------
