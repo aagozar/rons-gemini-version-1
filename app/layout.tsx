@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Archivo } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { SITE } from "@/lib/content";
 import { LinguaProvider } from "@/lib/useLingua";
 import "./globals.css";
@@ -63,6 +64,7 @@ export default function RootLayout({
     <html lang="en" className={`${bodoniModa.variable} ${archivo.variable}`}>
       <body className="grana bg-carta antialiased">
         <LinguaProvider>{children}</LinguaProvider>
+        <Analytics />
       </body>
     </html>
   );
